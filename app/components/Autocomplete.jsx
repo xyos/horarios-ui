@@ -53,6 +53,7 @@ var AutoComplete = React.createClass({
         onFocus={this.onFocus}
         onBlur={this.onBlur}
         style={style}>
+        <i className="search icon"></i>
         <input
           ref="search"
           className="react-autocomplete-Autocomplete__search"
@@ -253,9 +254,9 @@ var Results = React.createClass({
     };
 
     return this.transferPropsTo(
-      <ul style={style} className="react-autocomplete-Results">
+      <div style={style} className="menu react-autocomplete-Results">
         {this.props.results.map(this.renderResult)}
-      </ul>
+      </div>
     );
   },
 
@@ -337,18 +338,18 @@ var Result = React.createClass({
 
   render: function() {
     var className = cx({
-      'react-autocomplete-Result': true,
-      'react-autocomplete-Result--active': this.props.focused
+      'item': true,
+      'item active': this.props.focused
     });
 
     return (
-      <li
+      <div
         style={{listStyleType: 'none'}}
         className={className}
         onClick={this.onClick}
         onMouseEnter={this.onMouseEnter}>
-        <a>{this.props.result.title}</a>
-      </li>
+        {this.props.result.title}
+      </div>
     );
   },
 

@@ -27,9 +27,7 @@ var Subjects = React.createClass({
     }
 
     return (
-      <section id="main">
-        <ul id="subject-list">{subjects}</ul>
-      </section>
+      <div>{subjects}</div>
     );
   }
 });

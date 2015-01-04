@@ -18,13 +18,12 @@ module.exports = {
     loaders: [
       {test: /\.jsx$/, loaders: ['react-hot', 'jsx-loader?harmony&insertPragma=React.DOM']},
       {test: /\.es6\.js$/, loader: 'es6-loader'},
-
       // Extract css files
       { test: /\.css$/,    loader: "style-loader!css-loader" },
       { test: /\.less$/,   loader: "style-loader!css-loader!less-loader" },
       // allow less files to load urls pointing to font assets
       // @TODO: figure out why this is necessary and do it better
-      {test: /\.(woff|ttf|eot|svg)$/, loader: 'file-loader' }
+      {test: /\.(woff|ttf|eot|svg|png)$/, loader: 'file-loader' }
     ]
   },
   resolve : {
@@ -34,5 +33,14 @@ module.exports = {
       constants : __dirname + '/app/constants',
       stores : __dirname + '/app/stores'
     }
-  }
+  },
+  plugins : [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery"
+    })
+  ]
+
+
 };

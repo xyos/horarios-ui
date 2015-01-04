@@ -2,6 +2,7 @@ var AppDispatcher = require('../AppDispatcher');
 var SubjectConstants = require('constants/SubjectConstants');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+var StringUtils = require('../utils/String');
 var $ = require('jquery');
 
 var CHANGE_EVENT = 'change';
@@ -52,9 +53,19 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   },
 
   add: function(subject,data){
+    var groups = data.groups;
+    var name = StringUtils.humanize(data.name);
+    for (var i = 0, len = groups.length; i<len; i++){
+      groups[i].selected = true;
+      if(groups[i].teacher.trim() === ""){
+        groups[i].teacher = "No Asignado";
+      } else {
+        groups[i].teacher = StringUtils.humanize(groups[i].teacher);
+      }
+    }
     _subjects[subject.id] = {
       id: subject.id,
-      name: subject.title,
+      name: name,
       selected: true,
       groups: data.groups,
       type: data.type,
@@ -82,6 +93,25 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
     case SubjectConstants.SUBJECT_DELETE:
       delete _subjects[action.id];
       SubjectStore.emitChange();
+      break;
+
+    case SubjectConstants.SUBJECT_SELECT:
+      var groups = _subjects[action.id].groups;
+      _subjects[action.id].selected = !_subjects[action.id].selected;
+      for (var i = 0, len = groups.length; i<len; i++){
+        groups[i].selected = _subjects[action.id].selected;
+      }
+      console.log(_subjects);
+      SubjectStore.emitChange();
+      break;
+
+    case SubjectConstants.SUBJECT_SELECT_GROUP:
+      console.log(action);
+      _subjects[action.group.subject].groups[action.group.group - 1].selected =
+        !_subjects[action.group.subject].groups[action.group.group - 1].selected;
+      SubjectStore.emitChange();
+      break;
+
     default:
       // do nothing
   }

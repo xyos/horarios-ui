@@ -25,6 +25,7 @@
     "object-assign": "^2.0.0",
     "react": "^0.11.1",
     "react-autocomplete": "git+https://github.com/stereosteve/react-autocomplete",
-    "react-typeahead": "^1.0.0"
+    "react-typeahead": "^1.0.0",
+    "semantic-ui": "^1.5.2"
   }
 }

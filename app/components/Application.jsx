@@ -1,9 +1,12 @@
 var React = require('react');
 require('../style/app.less');
+require('semantic-ui/dist/semantic.css');
+require('semantic-ui/dist/semantic.js');
 var SubjectStore = require('stores/SubjectStore');
 var SubjectActions = require('actions/SubjectActions');
 var SearchComponent = require('./SearchComponent');
 var Subjects = require('./Subjects');
+var RightMenu = require('./RightMenu');
 
 var getState = function() {
   return {
@@ -37,20 +40,29 @@ var Application = React.createClass({
 
 
   render : function() {
+    var  side  = React.renderComponent(RightMenu(), document.getElementById('react2'));
+    side.setProps({ message : "hello" });
+    console.log(getState());
     return (
-      <div>
-        <h1>Hello World!</h1>
-        <SearchComponent
-          onAdd={this._addSubject}
-        />
+      <div className="ui fluid menu vertical">
+        <div className="item">
+          <SearchComponent
+            onAdd={this._addSubject}
+          />
+        </div>
         <Subjects
           allSubjects={this.state.allSubjects}
         />
-      {this.state.credits} Creditos
+        <div className="ui item bottom attached">{this.state.credits} Creditos</div>
       </div>
     );
   }
-
 });
 
-React.renderComponent(Application(), document.body);
+
+React.renderComponent(Application(), document.getElementById('react'));
+$('.ui.checkbox')
+  .checkbox()
+;
+
+

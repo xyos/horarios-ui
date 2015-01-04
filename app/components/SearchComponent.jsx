@@ -16,12 +16,13 @@ var SearchComponent = React.createClass({
           search={this._searchRemote}
           onChange={this._selectSubject}
           reset={false}
+          className="ui left fluid icon input"
         />
       </div>
     );
   },
   _searchRemote: function(options, searchTerm, cb) {
-    if (searchTerm.length < 4){
+    if (searchTerm.length < 3){
       return [];
     } else {
       $.ajax({

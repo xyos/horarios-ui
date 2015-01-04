@@ -1,25 +1,13 @@
 @import "~bootstrap/less/bootstrap.less";
 
 
-.react-autocomplete-Autocomplete__search {
-  .form-control();
-  font-size: inherit;
-  height: auto;
-  padding: 3px 6px;
-}
 
 .react-autocomplete-Autocomplete__results {
   .dropdown-menu();
-  width: 100%;
-  max-height: 200px;
-  overflow: auto;
-  font-size: inherit;
-  padding: inherit;
-  height: auto;
 }
 
 .react-autocomplete-Results {
-  overflow-x: hidden;
+  max-height: 100000%;
 }
 
 .react-autocomplete-Result {
@@ -32,4 +20,17 @@
 .react-autocomplete-Result--active {
   color: @dropdown-link-hover-color;
   background-color: @dropdown-link-hover-bg;
+}
+
+.main {
+  padding-top: 40px;
+}
+
+.no-show > div {
+  display: none;
+}
+
+input[type="checkbox"].toggle {
+  margin: 4px 10px 0px 0px;
+  vertical-align: text-bottom;
 }

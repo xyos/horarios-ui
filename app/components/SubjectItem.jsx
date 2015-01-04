@@ -4,6 +4,42 @@ var SubjectActions = require('../actions/SubjectActions');
 
 var cx = require('react/lib/cx');
 
+var GroupItem = React.createClass({
+
+  propTypes: {
+    group: ReactPropTypes.object.isRequired
+  },
+
+  /**
+   * @return {object}
+   */
+  render: function() {
+    var group = this.props.group;
+    var className = cx(
+      "item",
+      group.selected ? 'selected': ''
+    );
+
+    return (
+      <div className={className}>
+        <input
+          className="toggle"
+          type="checkbox"
+          checked={group.selected}
+          onChange={this._onSelection}
+        />
+            {group.teacher}
+      </div>
+    );
+  },
+
+  _onSelection: function() {
+    SubjectActions.selectGroup({subject:this.props.subject,group:this.props.group.code});
+  }
+
+});
+
+
 var SubjectItem = React.createClass({
 
   propTypes: {
@@ -12,7 +48,7 @@ var SubjectItem = React.createClass({
 
   getInitialState: function() {
     return {
-      expanded: true
+      noShow: true
     };
   },
 
@@ -21,40 +57,45 @@ var SubjectItem = React.createClass({
    */
   render: function() {
     var subject = this.props.subject;
-
+    var className = cx(
+      "header item subject",
+      subject.selected ? 'selected': '',
+      this.state.noShow ? 'no-show' : ''
+    );
+    var groups = [];
+    var allGroups = this.props.subject.groups;
+    for(var key in allGroups){
+      k = this.props.subject.id + key;
+      groups.push(<GroupItem key={k} group={allGroups[key]} subject={subject.id}/>)
+    }
     return (
-      <li
-        className={cx({
-          'selected': subject.selected,
-          'expanded': this.state.expanded
-        })}
+      <div
+        className={className}
         key={subject.id}>
-        <div className="view">
+        <i className="remove icon" onClick={this._onDestroyClick} />
           <input
             className="toggle"
             type="checkbox"
             checked={subject.selected}
             onChange={this._onSelection}
           />
-          <label onClick={this._onClick}>
+          <a onClick={this._onClick}>
             {subject.name}
-          </label>
-          <button className="destroy" onClick={this._onDestroyClick} />
-        </div>
-      </li>
+          </a>
+          <div className="menu">{groups}</div>
+      </div>
     );
   },
 
   _onSelection: function() {
-    //SubjectActions.select(this.props.subject);
+    SubjectActions.select(this.props.subject.id);
   },
 
   _onClick: function() {
-    this.setState({expanded: !this.state.expanded});
+    this.setState({noShow: !this.state.noShow});
   },
 
   _onDestroyClick: function() {
-    console.log(this.props.subject);
     SubjectActions.destroy(this.props.subject.id);
   }
 
