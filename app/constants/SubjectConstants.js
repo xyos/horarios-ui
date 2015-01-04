@@ -1,0 +1,7 @@
+var keyMirror = require('react/lib/keyMirror');
+
+module.exports = keyMirror({
+  SUBJECT_ADD : null,
+  SUBJECT_DELETE : null,
+  SUBJECT_UPDATE_GROUPS : null
+});
