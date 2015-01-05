@@ -3,10 +3,23 @@ require('../style/app.less');
 require('semantic-ui/dist/semantic.css');
 require('semantic-ui/dist/semantic.js');
 var SubjectStore = require('stores/SubjectStore');
+var ScheduleStore = require('stores/ScheduleStore');
 var SubjectActions = require('actions/SubjectActions');
 var SearchComponent = require('./SearchComponent');
-var Subjects = require('./Subjects');
+var Subjects  = require('./Subjects');
+var Schedules = require('./Schedules');
 var RightMenu = require('./RightMenu');
+var History = require("html5-history");
+var ScheduleActions = require('../actions/ScheduleActions');
+var AppDispatcher = require('../AppDispatcher');
+
+window.History = History;
+window.React = React;
+
+var hash = History.getState().hash;
+
+
+
 
 var getState = function() {
   return {
@@ -17,7 +30,6 @@ var getState = function() {
 
 
 var Application = React.createClass({
-
   getInitialState : function() {
     return getState();
   },
@@ -40,9 +52,9 @@ var Application = React.createClass({
 
 
   render : function() {
-    var  side  = React.renderComponent(RightMenu(), document.getElementById('react2'));
+    var  side  = React.renderComponent(RightMenu(), document.getElementById('right-menu'));
     side.setProps({ message : "hello" });
-    console.log(getState());
+    var  schedules = React.renderComponent(Schedules(), document.getElementById('schedules'));
     return (
       <div className="ui fluid menu vertical">
         <div className="item">
@@ -60,9 +72,12 @@ var Application = React.createClass({
 });
 
 
-React.renderComponent(Application(), document.getElementById('react'));
+var app = Application();
+
+React.renderComponent(app, document.getElementById('search'));
 $('.ui.checkbox')
   .checkbox()
 ;
-
+Loader = require('../utils/Loader');
+Loader(hash);
 

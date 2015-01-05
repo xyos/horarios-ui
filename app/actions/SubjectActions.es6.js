@@ -1,5 +1,5 @@
 var AppDispatcher = require('../AppDispatcher');
-var SubjectConstants = require('constants/SubjectConstants');
+var SubjectConstants = require('../constants/SubjectConstants');
 
 var SubjectActions = {
 
@@ -25,6 +25,12 @@ var SubjectActions = {
     AppDispatcher.handleViewAction({
       actionType : SubjectConstants.SUBJECT_SELECT_GROUP,
       group : group
+    });
+  },
+  loadRaw : subjects => {
+    AppDispatcher.handleServerAction({
+      actionType : SubjectConstants.SUBJECT_LOAD,
+      subjects : subjects
     });
   }
 

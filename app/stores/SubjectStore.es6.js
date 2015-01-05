@@ -4,6 +4,7 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var StringUtils = require('../utils/String');
 var $ = require('jquery');
+var ScheduleActions = require('../actions/ScheduleActions');
 
 var CHANGE_EVENT = 'change';
 
@@ -16,6 +17,7 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   },
 
   emitChange: function() {
+    //ScheduleActions.update(_subjects);
     this.emit(CHANGE_EVENT);
   },
 
@@ -42,6 +44,11 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
 
   getAll: function() {
     return _subjects;
+  },
+
+  setRaw: function(subjects){
+    _subjects = subjects;
+    SubjectStore.emitChange();
   },
 
   getCredits: function() {
@@ -88,6 +95,10 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
         dataType: 'json',
         success: SubjectStore.add.bind(null, action.subject)
       });
+      break;
+
+    case SubjectConstants.SUBJECT_LOAD:
+      SubjectStore.setRaw(action.subjects);
       break;
 
     case SubjectConstants.SUBJECT_DELETE:
