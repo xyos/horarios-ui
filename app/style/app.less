@@ -1,5 +1,19 @@
 @import "~bootstrap/less/bootstrap.less";
+// ............................................................
+// .for
 
+.for(@i, @n) {.-each(@i)}
+.for(@n)     when (isnumber(@n)) {.for(1, @n)}
+.for(@i, @n) when not (@i = @n)  {
+  .for((@i + (@n - @i) / abs(@n - @i)), @n);
+}
+
+// ............................................................
+// .for-each
+
+.for(@array)   when (default()) {.for-impl_(length(@array))}
+.for-impl_(@i) when (@i > 1)    {.for-impl_((@i - 1))}
+.for-impl_(@i) when (@i > 0)    {.-each(extract(@array, @i))}
 
 
 .react-autocomplete-Autocomplete__results {
@@ -130,3 +144,28 @@ input[type="checkbox"].toggle {
   left: percentage(@separation*5);
   //background-color: #00AA88;
 }
+@white : #eee;
+@black : #222;
+
+@red: #f44336;
+@pink: #e91e63;
+@purple: #9c27b0;
+@deep: #673ab7;
+@indigo: #3f51b5;
+@blue: #2196f3;
+@light: #03a9f4;
+@cyan: #00bcd4;
+@teal: #009688;
+@green: #4caf50;
+@light: #8bc34a;
+@lime: #cddc39;
+@yellow: #ffeb3b;
+@amber: #ffc107;
+@orange: #ff9800;
+@deep: #ff5722;
+@brown: #795548;
+@grey: #9e9e9e;
+@blue: #607d8b;
+
+@colors = 'red', 'pink', 'purple', 'deep', 'indigo', 'blue', 'light', 'cyan', 'teal', 'green', 'light', 'lime', 'yellow', 'amber', 'orange', 'deep', 'brown', 'grey', 'blue';
+@complements = 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'black', 'black', 'black', 'black', 'black', 'white', 'white', 'black', 'white';

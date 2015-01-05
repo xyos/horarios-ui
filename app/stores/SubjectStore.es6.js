@@ -4,12 +4,14 @@ var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var StringUtils = require('../utils/String');
 var $ = require('jquery');
-var ScheduleActions = require('../actions/ScheduleActions');
-
+var Colors = require('../constants/Colors');
 var CHANGE_EVENT = 'change';
 
 var _subjects = {};
-
+var _availableColors = [];
+for(var color in Colors){
+  _availableColors.push(color);
+}
 var SubjectStore = assign({}, EventEmitter.prototype, {
 
   init: function(rawSubjects) {
@@ -70,13 +72,16 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
         groups[i].teacher = StringUtils.humanize(groups[i].teacher);
       }
     }
+    var color = _availableColors.splice((Math.floor(Math.random() * _availableColors.length)),1)[0];
+    console.log(color);
     _subjects[subject.id] = {
       id: subject.id,
       name: name,
       selected: true,
       groups: data.groups,
       type: data.type,
-      credits: data.credits
+      credits: data.credits,
+      color: Colors[color]
     };
     SubjectStore.emitChange();
   }
@@ -100,6 +105,8 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
       break;
 
     case SubjectConstants.SUBJECT_DELETE:
+      var color = _subjects[action.id].color;
+      _availableColors.push(color.name);
       delete _subjects[action.id];
       SubjectStore.emitChange();
       break;

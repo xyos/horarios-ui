@@ -111,7 +111,8 @@ var SubjectItem = React.createClass({
     var className = cx(
       "header item subject",
       subject.selected ? 'selected': '',
-      this.state.noShow ? 'no-show' : ''
+      this.state.noShow ? 'no-show' : '',
+      subject.color.css
     );
     var teachers = {};
     var allGroups = this.props.subject.groups;
