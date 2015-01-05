@@ -3,10 +3,10 @@ var ScheduleConstants = require('../constants/ScheduleConstants');
 
 var ScheduleActions = {
 
-  update : subjects => {
+  setCurrent : id => {
     AppDispatcher.handleViewAction({
-      actionType : ScheduleConstants.SCHEDULE_UPDATE,
-      subjects : subjects
+      actionType : ScheduleConstants.SCHEDULE_SET_CURRENT,
+      id : id
     });
   },
   loadRaw : schedules => {

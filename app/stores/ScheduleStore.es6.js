@@ -10,6 +10,7 @@ var SubjectStore = require('./SubjectStore');
 var CHANGE_EVENT = 'change';
 
 var _schedules = [];
+var _currentSchedule = 0;
 
 var ScheduleStore = assign({}, EventEmitter.prototype, {
 
@@ -46,6 +47,13 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
     return _schedules;
     ScheduleStore.emitChange();
   },
+  setCurrent(id){
+    _currentSchedule = id;
+    ScheduleStore.emitChange();
+  },
+  getCurrent() {
+    return _currentSchedule;
+  },
 
   setRaw: function(schedules){
     _schedules = schedules;
@@ -55,29 +63,39 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
   update: function(subjects,data){
     //TODO: set color
     _schedules = data;
-    console.log(_schedules);
     ScheduleStore.emitChange();
   }
 
 });
 
 ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
+  var action = payload.action;
+
+  switch(action.actionType) {
+
+    case ScheduleConstants.SCHEDULE_SET_CURRENT:
+      ScheduleStore.setCurrent(action.id);
+      break;
+    default :
+      break;
+  }
 
   AppDispatcher.waitFor([SubjectStore.dispatchToken]);
-
-  var action = payload.action;
   if(action.actionType === SubjectConstants.SUBJECT_ADD||
     action.actionType === SubjectConstants.SUBJECT_DELETE||
     action.actionType === SubjectConstants.SUBJECT_SELECT_GROUP||
     action.actionType === SubjectConstants.SUBJECT_SELECT
   ){
-    var subjects = SubjectStore.getAll();
-    var url = ScheduleUtils.generateScheduleURL(subjects);
-    $.ajax({
-      url: "http://bogota.nomeroben.com/api/v1.0/schedule/" + url,
-      dataType: 'json',
-      success: ScheduleStore.update.bind(null, subjects)
-    });
+    setTimeout( function(){
+      var subjects = SubjectStore.getAll();
+      var url = ScheduleUtils.generateScheduleURL(subjects);
+      $.ajax({
+        url: "http://bogota.nomeroben.com/api/v1.0/schedule/" + url,
+        dataType: 'json',
+        success: ScheduleStore.update.bind(null, subjects)
+      });
+    },300);
+
   }
   //switch(action.actionType) {
   //

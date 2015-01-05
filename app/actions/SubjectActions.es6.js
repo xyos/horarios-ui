@@ -4,7 +4,7 @@ var SubjectConstants = require('../constants/SubjectConstants');
 var SubjectActions = {
 
   addSubject : subject => {
-    AppDispatcher.handleViewAction({
+    AppDispatcher.handleServerAction({
       actionType : SubjectConstants.SUBJECT_ADD,
       subject : subject
     });

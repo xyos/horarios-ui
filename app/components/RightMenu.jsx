@@ -3,10 +3,6 @@ var ReactPropTypes = React.PropTypes;
 
 var RightMenu = React.createClass({
 
-  propTypes: {
-    message: ReactPropTypes.object.isRequired
-  },
-
   /**
    * @return {object}
    */

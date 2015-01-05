@@ -18,9 +18,6 @@ window.React = React;
 
 var hash = History.getState().hash;
 
-
-
-
 var getState = function() {
   return {
     allSubjects  : SubjectStore.getAll(),
@@ -52,8 +49,7 @@ var Application = React.createClass({
 
 
   render : function() {
-    var  side  = React.renderComponent(RightMenu(), document.getElementById('right-menu'));
-    side.setProps({ message : "hello" });
+    var  side  = React.renderComponent(RightMenu({ message : "hello" }), document.getElementById('right-menu'));
     var  schedules = React.renderComponent(Schedules(), document.getElementById('schedules'));
     return (
       <div className="ui fluid menu vertical">

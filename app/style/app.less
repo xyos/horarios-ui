@@ -34,3 +34,99 @@ input[type="checkbox"].toggle {
   margin: 4px 10px 0px 0px;
   vertical-align: text-bottom;
 }
+
+.week-timed-borders {
+  list-style-type: none;
+  margin-top: 24px;
+  padding-left: 0px;
+}
+
+.week-timed-borders li:nth-child(2n+1) {
+  border-bottom-style: dotted;
+}
+.week-timed-borders li {
+  height: 16px;
+  width: 100%;
+  border-bottom: 1px solid rgba(216,216,216,.7);
+}
+.week_label {
+  height: 31px;
+  line-height: 30px;
+  margin-bottom: 1px;
+}
+.daynames {
+  height: 40px;
+  width: 100%;
+  overflow: hidden;
+  list-style-type: none;
+  float: right;
+  padding-left: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  //border-bottom: 1px solid rgba(216,216,216,.7);
+}
+.daynames_item {
+  float: left;
+  width: percentage(1/6);
+  font-size: 14px;
+  line-height: 44px;
+  text-align: center;
+  color: #404040;
+}
+.week_hours {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 24px;
+  padding-bottom: 0;
+  list-style-type: none;
+  top: 54px;
+  padding-left: 0px;
+  text-align: right;
+  width: 90%;
+}
+.week_days {
+  list-style-type: none;
+}
+
+.week.ui.segment {
+  height: 570px;
+  margin-top: 0px;
+}
+@separation : 1/6;
+.week .col1, .week .col2, .week .col3, .week .col4, .week .col5, .week .col6{
+  position: absolute;
+  top: 53px;
+  height: 480px;
+  width: percentage(@separation*1);
+
+  border-right: 1px solid rgba(216,216,216,.7);
+}
+
+
+
+.week .col1, .week .col-start2 {
+  border-left: 1px solid rgba(216,216,216,.7);
+  left: 0;
+  //background-color: #de7171;
+}
+.week .col2, .week .col-start2 {
+  left: percentage(@separation*1);
+  //background-color: #00AA88;
+}
+.week .col3, .week .col-start3 {
+  left: percentage(@separation*2);
+  //background-color: #de7171;
+}
+.week .col4, .week .col-start4 {
+  left: percentage(@separation*3);
+  //  background-color: #00AA88;
+}
+.week .col5, .week .col-start5 {
+  left: percentage(@separation*4);
+  //background-color: #de7171;
+}
+.week .col6, .week .col-start6 {
+  left: percentage(@separation*5);
+  //background-color: #00AA88;
+}
