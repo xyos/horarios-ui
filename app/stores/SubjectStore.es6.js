@@ -78,14 +78,12 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       type: data.type,
       credits: data.credits
     };
-    console.log(_subjects);
     SubjectStore.emitChange();
   }
 
 });
 
 SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
-  console.log(payload);
   var action = payload.action;
   switch(action.actionType) {
 
@@ -112,7 +110,6 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
       for (var i = 0, len = groups.length; i<len; i++){
         groups[i].selected = _subjects[action.id].selected;
       }
-      console.log(_subjects);
       SubjectStore.emitChange();
       break;
 

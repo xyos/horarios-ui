@@ -48,7 +48,6 @@ var SearchComponent = React.createClass({
     return results.slice(0, 100)
   },
   _selectSubject: function(subject){
-    console.log(subject);
     this._onSubjectAdd(subject);
   },
   _onSubjectAdd: function(subject){

@@ -11,7 +11,6 @@ var Loader = function(hash){
       url: "https://gist.githubusercontent.com/xyos/1a338c24fc11e62f26db/raw/230b96367b803771ca3bb7b64d267d0fda1020f9/test.json",
       dataType: 'json'
     }).done(function(data){
-      console.log(data.allSubjects);
       SubjectActions.loadRaw(data.allSubjects);
     });
 

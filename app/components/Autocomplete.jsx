@@ -129,7 +129,6 @@ var AutoComplete = React.createClass({
       this.props.onChange(value);
     }
     if (this.props.reset) {
-      console.log(this.props.reset);
       this.reset();
     }
   },

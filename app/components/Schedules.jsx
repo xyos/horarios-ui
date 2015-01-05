@@ -66,7 +66,6 @@ var Schedules = React.createClass({
         }
       }
     }
-    console.log(days);
     for(var key in days){
       domObject = document.getElementById(key);
       if(domObject !== null){
