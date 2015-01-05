@@ -1,8 +1,7 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
-var SubjectActions = require('../actions/SubjectActions');
-var SubjectItem = require('./SubjectItem');
-
+var cx = require('react/lib/cx');
+var SubjectStore = require('../stores/SubjectStore');
 var CalendarItem = React.createClass({
 
   /**
@@ -11,14 +10,20 @@ var CalendarItem = React.createClass({
   render: function() {
     var divStyle = {
       position: "relative",
-      background: "green",
       height: this.props.height,
       top: this.props.top
     };
+    var teacher = SubjectStore.getTeacher(this.props.subject.id, this.props.group);
+    var itemClass = cx(
+      "event",
+      this.props.subject.color.css
+    );
+    console.log(this.props.subject);
     return (
       <div
+        className={itemClass}
         style={divStyle}
-      >hola</div>
+      >{teacher}</div>
     );
   }
 });

@@ -150,24 +150,24 @@ input[type="checkbox"].toggle {
 @red: #f44336;
 @pink: #e91e63;
 @purple: #9c27b0;
-@deep: #673ab7;
+@deep-purple: #673ab7;
 @indigo: #3f51b5;
 @blue: #2196f3;
 @light-blue: #03a9f4;
 @cyan: #00bcd4;
 @teal: #009688;
 @green: #4caf50;
-@light: #8bc34a;
+@light-green: #8bc34a;
 @lime: #cddc39;
 @yellow: #ffeb3b;
 @amber: #ffc107;
 @orange: #ff9800;
-@deep: #ff5722;
+@deep-orange: #ff5722;
 @brown: #795548;
 @grey: #9e9e9e;
-@blue: #607d8b;
+@blue-grey: #607d8b;
 
-@colors : 'red', 'pink', 'purple', 'deep', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light', 'lime', 'yellow', 'amber', 'orange', 'deep', 'brown', 'grey', 'blue';
+@colors : 'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'grey', 'blue-grey';
 @complements : 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'black', 'black', 'black', 'black', 'black', 'white', 'white', 'black', 'white';
 
 .header.item {
@@ -186,6 +186,21 @@ input[type="checkbox"].toggle {
   .-((@i - 1));
 } .-;
 }
+
+.event {
+  .-(@i: length(@colors)) when (@i > 0) {
+  @name: e(extract(@colors, @i));
+  @complement: e(extract(@complements, @i));
+  &.@{name} {
+    background: @@name !important;
+    color: @@complement !important;
+    font-size: 12px; text-align: center;
+    vertical-align: middle;
+    display: table-cell !important;}
+  .-((@i - 1));
+} .-;
+}
+
 .header.item > .menu {
   background: #fff;
 }

@@ -47,6 +47,17 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   getAll: function() {
     return _subjects;
   },
+  getTeacher: function(subject,group) {
+    var groups = _subjects[subject].groups;
+    for(var i = 0; i< groups.length; i++){
+      if(groups[i].code == group){
+        return groups[i].teacher;
+      }
+    }
+    console.log(subject);
+    console.log(group);
+    return "No Asignado";
+  },
 
   setRaw: function(subjects){
     _subjects = subjects;

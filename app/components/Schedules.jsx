@@ -2,6 +2,7 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var ScheduleUtils = require('../utils/Schedule');
 var ScheduleStore = require('../stores/ScheduleStore');
+var SubjectStore = require('../stores/SubjectStore');
 var Calendar = require('./Calendar');
 var CalendarItem = require('./CalendarItem');
 
@@ -33,15 +34,14 @@ var Schedules = React.createClass({
    * @return {object}
    */
   render: function() {
-    // This section should be hidden by default
-    // and shown when there are subjects.
-
-    var number = this.state.allSchedules.length;
     var current = this.state.allSchedules[this.state.currentSchedule];
     var days = {};
     var groups = current === undefined ? [{schedule : [0,0,0,0,0,0,0]}] : current.groups;
     for(var i=0, len = groups.length; i<len; i++){
       var groupSchedule = groups[i].schedule;
+      console.log(groups[i]);
+
+      var subject = SubjectStore.get(groups[i].subject);
       for(var j=0, len1 = groupSchedule.length; j<len1; j++){
         if(days["col"+(j+1)] === undefined){
           days["col"+(j+1)] = [];
@@ -59,7 +59,7 @@ var Schedules = React.createClass({
             height += 1;
           } else if(char === "0" && newElement == false){
             newElement = true;
-            days["col"+(j+1)].push(<CalendarItem height={height*32} top={top}/>);
+            days["col"+(j+1)].push(<CalendarItem height={height*32} top={top} subject={subject} group={groups[i].code}/>);
             var height = 0;
           }
           top += 32;

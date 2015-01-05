@@ -9,7 +9,6 @@ var Calendar = React.createClass({
    * @return {object}
    */
   render: function() {
-    var calendar = JSON.stringify(this.props.schedule);
     return (
       <div> {this.props.day}</div>
     );
