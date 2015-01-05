@@ -28,13 +28,64 @@ var GroupItem = React.createClass({
           checked={group.selected}
           onChange={this._onSelection}
         />
-            {group.teacher}
+            {"grupo " + group.code}
       </div>
     );
   },
 
   _onSelection: function() {
     SubjectActions.selectGroup({subject:this.props.subject,group:this.props.group.code});
+  }
+
+});
+
+var TeacherItem = React.createClass({
+
+  getInitialState: function() {
+    return {
+      noShow: true,
+      selected: true
+    };
+  },
+
+  propTypes: {
+    teacher: ReactPropTypes.object.isRequired,
+  },
+
+  /**
+   * @return {object}
+   */
+  render: function() {
+    var className = cx(
+      "item",
+      this.state.noShow ? 'no-show' : ''
+    );
+
+    return (
+      <div className={className}>
+        <input
+          className="toggle"
+          type="checkbox"
+          checked={this.state.selected}
+          onChange={this._onSelection}
+        />
+        <a onClick={this._onClick}>
+            {this.props.teacher.teacher}
+        </a>
+
+        <div className="menu">{this.props.teacher.groups}</div>
+      </div>
+    );
+  },
+
+  _onClick: function() {
+    this.setState({noShow: !this.state.noShow});
+  },
+
+  _onSelection: function() {
+    SubjectActions.setGroupsSelection({subject : this.props.teacher.groups[0].props.subject,
+        groups:this.props.teacher.groups, selected: !this.state.selected});
+    this.state.selected = !this.state.selected;
   }
 
 });
@@ -62,11 +113,21 @@ var SubjectItem = React.createClass({
       subject.selected ? 'selected': '',
       this.state.noShow ? 'no-show' : ''
     );
-    var groups = [];
+    var teachers = {};
     var allGroups = this.props.subject.groups;
     for(var key in allGroups){
+      if(teachers[allGroups[key].teacher] === undefined){
+        teachers[allGroups[key].teacher] = {teacher:allGroups[key].teacher};
+        teachers[allGroups[key].teacher].groups =[];
+      }
+
       k = this.props.subject.id + key;
-      groups.push(<GroupItem key={k} group={allGroups[key]} subject={subject.id}/>)
+      teachers[allGroups[key].teacher].groups.push(<GroupItem key={k} group={allGroups[key]} subject={subject.id}/>);
+
+    }
+    var teachersArray = [];
+    for(var key in teachers){
+      teachersArray.push(<TeacherItem teacher={teachers[key]}/>);
     }
     return (
       <div
@@ -82,7 +143,7 @@ var SubjectItem = React.createClass({
           <a onClick={this._onClick}>
             {subject.name}
           </a>
-          <div className="menu">{groups}</div>
+          <div className="menu">{teachersArray}</div>
       </div>
     );
   },

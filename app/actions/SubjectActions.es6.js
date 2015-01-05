@@ -26,6 +26,11 @@ var SubjectActions = {
       actionType : SubjectConstants.SUBJECT_SELECT_GROUP,
       group : group
     });
+  },  setGroupsSelection : groups => {
+    AppDispatcher.handleViewAction({
+      actionType : SubjectConstants.SUBJECT_SELECT_GROUPS,
+      group : groups
+    });
   },
   loadRaw : subjects => {
     AppDispatcher.handleServerAction({

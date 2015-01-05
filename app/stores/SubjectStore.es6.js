@@ -116,8 +116,20 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
       SubjectStore.emitChange();
       break;
 
+    case SubjectConstants.SUBJECT_SELECT_GROUPS:
+      for(var i = 0; i < action.group.groups.length; i++){
+        var code = action.group.groups[i].props.group.code;
+        for(var group in _subjects[action.group.subject].groups){
+          if(_subjects[action.group.subject].groups[group].code == code){
+            _subjects[action.group.subject].groups[group].selected =action.group.selected;
+          }
+        }
+      }
+      SubjectStore.emitChange();
+      break;
+
     case SubjectConstants.SUBJECT_SELECT_GROUP:
-      console.log(action);
+
       _subjects[action.group.subject].groups[action.group.group - 1].selected =
         !_subjects[action.group.subject].groups[action.group.group - 1].selected;
       SubjectStore.emitChange();

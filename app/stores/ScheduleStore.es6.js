@@ -84,7 +84,8 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
   if(action.actionType === SubjectConstants.SUBJECT_ADD||
     action.actionType === SubjectConstants.SUBJECT_DELETE||
     action.actionType === SubjectConstants.SUBJECT_SELECT_GROUP||
-    action.actionType === SubjectConstants.SUBJECT_SELECT
+    action.actionType === SubjectConstants.SUBJECT_SELECT ||
+    action.actionType === SubjectConstants.SUBJECT_SELECT_GROUPS
   ){
     setTimeout( function(){
       var subjects = SubjectStore.getAll();

@@ -12,6 +12,7 @@ var RightMenu = require('./RightMenu');
 var History = require("html5-history");
 var ScheduleActions = require('../actions/ScheduleActions');
 var AppDispatcher = require('../AppDispatcher');
+var cx = require('react/lib/cx');
 
 window.History = History;
 window.React = React;
@@ -51,6 +52,10 @@ var Application = React.createClass({
   render : function() {
     var  side  = React.renderComponent(RightMenu({ message : "hello" }), document.getElementById('right-menu'));
     var  schedules = React.renderComponent(Schedules(), document.getElementById('schedules'));
+    var creditsClass = cx(
+      "active item bottom attached",
+      this.state.credits < 10 ? 'red' : this.state.credits <= 20 ? 'green' : 'orange'
+    );
     return (
       <div className="ui fluid menu vertical">
         <div className="item">
@@ -61,7 +66,7 @@ var Application = React.createClass({
         <Subjects
           allSubjects={this.state.allSubjects}
         />
-        <div className="ui item bottom attached">{this.state.credits} Creditos</div>
+        <a className={creditsClass}>{this.state.credits} Creditos</a>
       </div>
     );
   }
