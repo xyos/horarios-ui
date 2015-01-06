@@ -13,6 +13,7 @@ var History = require("html5-history");
 var ScheduleActions = require('../actions/ScheduleActions');
 var AppDispatcher = require('../AppDispatcher');
 var cx = require('react/lib/cx');
+var ProfessionChooser = require('./ProfessionChooser.jsx');
 
 window.History = History;
 window.React = React;
@@ -59,6 +60,9 @@ var Application = React.createClass({
     return (
       <div className="ui fluid menu vertical">
         <div className="item">
+          <ProfessionChooser/>
+        </div>
+        <div className="item">
           <SearchComponent
             onAdd={this._addSubject}
           />
@@ -78,6 +82,11 @@ var app = Application();
 React.renderComponent(app, document.getElementById('search'));
 $('.ui.checkbox')
   .checkbox()
+;
+$('.dropdown')
+  .dropdown({
+    transition: 'drop'
+  })
 ;
 Loader = require('../utils/Loader');
 Loader(hash);
