@@ -17,6 +17,7 @@ var SearchComponent = React.createClass({
           onChange={this._selectSubject}
           reset={false}
           className="ui left fluid icon input"
+          placeHolder="Buscar Materias"
         />
       </div>
     );

@@ -64,7 +64,7 @@ var AutoComplete = React.createClass({
           onBlur={this.onQueryBlur}
           onKeyDown={this.onQueryKeyDown}
           value={this.state.searchTerm}
-          placeholder="Buscar Materias..."
+          placeholder={this.props.placeHolder}
         />
         <Results
           className="react-autocomplete-Autocomplete__results"
