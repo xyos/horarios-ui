@@ -4,6 +4,7 @@ var ScheduleUtils = require('../utils/Schedule');
 var ScheduleStore = require('../stores/ScheduleStore');
 var SubjectStore = require('../stores/SubjectStore');
 var Calendar = require('./Calendar');
+var SchedulesPager = require('./SchedulesPager');
 var CalendarItem = require('./CalendarItem');
 
 var getState = function() {
@@ -12,6 +13,15 @@ var getState = function() {
     currentSchedule : ScheduleStore.getCurrent()
   };
 };
+
+__defaultEmptySchedule = [
+    "00000000000000000",
+    "00000000000000000",
+    "00000000000000000",
+    "00000000000000000",
+    "00000000000000000",
+    "00000000000000000"
+]
 
 var Schedules = React.createClass({
   getInitialState : function() {
@@ -36,9 +46,9 @@ var Schedules = React.createClass({
   render: function() {
     var current = this.state.allSchedules[this.state.currentSchedule];
     var days = {};
-    var groups = current === undefined ? [{schedule : [0,0,0,0,0,0,0]}] : current.groups;
+    var groups = current === undefined ? [{schedule : [0,0,0,0,0,0,0],_schedule:__defaultEmptySchedule}] : current.groups;
     for(var i=0, len = groups.length; i<len; i++){
-      var groupSchedule = groups[i].schedule;
+      var groupSchedule = groups[i]._schedule;
       console.log(groups[i]);
 
       var subject = SubjectStore.get(groups[i].subject);
@@ -46,20 +56,23 @@ var Schedules = React.createClass({
         if(days["col"+(j+1)] === undefined){
           days["col"+(j+1)] = [];
         }
-        var daySchedule = ScheduleUtils.decimalToSchedString(groupSchedule[j]).substring(7);
+        var daySchedule = groupSchedule[j];
+        console.log(daySchedule);
         var top = 16;
         var newElement = true;
         var height = 0;
+        var newElementTop = 0;
         for(var k=0, len2 = daySchedule.length; k<len2; k++){
           var char = daySchedule[k];
           if(char == "1" && newElement == true){
             newElement = false;
+            newElementTop = top;
             height = 1;
           } else if(char == "1" && newElement == false){
             height += 1;
           } else if(char === "0" && newElement == false){
             newElement = true;
-            days["col"+(j+1)].push(<CalendarItem height={height*32} top={top} subject={subject} group={groups[i].code}/>);
+            days["col"+(j+1)].push(<CalendarItem height={height*32} top={newElementTop} subject={subject} group={groups[i].code}/>);
             var height = 0;
           }
           top += 32;
@@ -72,8 +85,10 @@ var Schedules = React.createClass({
         React.renderComponent(Calendar({key:key, day : days[key]}), domObject);
       }
     }
+    React.renderComponent(SchedulesPager({schedules:this.state.allSchedules}), document.getElementById("schedules-pager"));
     return (
       <div></div>
+        
     );
   }
 });

@@ -63,6 +63,16 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
   update: function(subjects,data){
     //TODO: set color
     _schedules = data;
+    for(var i in data){
+        for(var j in _schedules[i].groups){
+            var group = _schedules[i].groups[j];
+            group.color = subjects[group.subject].color;
+            group._schedule = [];
+            for(var k=0;k<group.schedule.length;k++){
+                group._schedule.push(ScheduleUtils.decimalToSchedString(group.schedule[k]).substring(7));
+            }
+        }
+    }
     ScheduleStore.emitChange();
   }
 
