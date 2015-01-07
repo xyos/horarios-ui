@@ -101,7 +101,8 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
   ){
     setTimeout( function(){
       var subjects = SubjectStore.getAll();
-      var url = ScheduleUtils.generateScheduleURL(subjects);
+      var profession = SubjectStore.getProfession();
+      var url = ScheduleUtils.generateScheduleURL(subjects,profession.code);
       $.ajax({
         url: "http://bogota.nomeroben.com/api/v1.0/schedule/" + url,
         dataType: 'json',
