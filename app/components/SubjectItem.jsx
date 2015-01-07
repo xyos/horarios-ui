@@ -43,7 +43,7 @@ var TeacherItem = React.createClass({
 
   getInitialState: function() {
     return {
-      noShow: true,
+      noShow: false,
       selected: this.props.teacher.selected
     };
   },
@@ -73,7 +73,7 @@ var TeacherItem = React.createClass({
             {this.props.teacher.name}
         </a>
 
-        <div className="menu">{this.props.teacher.groupsArray}</div>
+        <div className="menu">{this.props.groups}</div>
       </div>
     );
   },
@@ -119,13 +119,15 @@ var SubjectItem = React.createClass({
     );
     var teachers = this.props.subject.teachers;
     var groups = this.props.subject.groups;
-    //teachers[groups[key].teacher].groupsArray = [];
-    for(var key in groups){
-      teachers[groups[key].teacher].groupsArray[key] = <GroupItem group={groups[key]} subject={subject.id}/>;
-    }
     var teachersArray = [];
-    for(var key in teachers){
-      teachersArray.push(<TeacherItem teacher={teachers[key]} subject={this.props.subject.id}/>);
+    for(var teacher in teachers){
+      var groupsArray = {};
+      for(var group in groups){
+        if(teacher  == groups[group].teacher){
+          groupsArray[group] = <GroupItem group={groups[group]} subject={subject.id}/>;
+        }
+      }
+      teachersArray.push(<TeacherItem teacher={teachers[teacher]} subject={this.props.subject.id} groups={groupsArray}/>);
     }
     return (
       <div

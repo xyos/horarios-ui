@@ -6,12 +6,14 @@ var Saver = {
     return {
       subjects : SubjectStore.getAll(),
       profession : SubjectStore.getProfession(),
-      schedules : SubjectStore.getAll(),
-      currentSchedule : ScheduleStore.getCurrent()
+      schedules : ScheduleStore.getAll(),
+      currentSchedule : ScheduleStore.getCurrent(),
+      colors : SubjectStore.getAvailableColors()
     }
   },
   getText : function(){
     return JSON.stringify(this.getJSON);
+
   }
 };
 

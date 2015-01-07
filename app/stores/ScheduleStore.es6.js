@@ -54,8 +54,9 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
   getCurrent() {
     return _currentSchedule;
   },
-  setRaw: function(schedules){
-    _schedules = schedules;
+  setRaw: function(raw){
+    _schedules = raw.schedules;
+    _currentSchedule = raw.currentSchedule;
     ScheduleStore.emitChange();
   },
 
@@ -81,7 +82,9 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
   var action = payload.action;
 
   switch(action.actionType) {
-
+    case ScheduleConstants.SCHEDULE_LOAD:
+      ScheduleStore.setRaw(action.schedules);
+      break;
     case ScheduleConstants.SCHEDULE_SET_CURRENT:
       ScheduleStore.setCurrent(action.id);
       break;

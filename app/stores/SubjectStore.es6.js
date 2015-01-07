@@ -66,6 +66,11 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   getAll: function() {
     return _subjects;
   },
+
+  getAvailableColors: function(){
+    return _availableColors;
+  },
+
   getTeacher: function(subject,group) {
     var groups = _subjects[subject].groups;
     for(var i = 0; i< groups.length; i++){
@@ -80,8 +85,10 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
     return _currentProfession
   },
 
-  setRaw: function(subjects){
-    _subjects = subjects;
+  setRaw: function(raw){
+    _subjects = raw.subjects;
+    _availableColors = raw.colors;
+    _currentProfession = raw.profession;
     SubjectStore.emitChange();
   },
 
@@ -107,8 +114,7 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       if(teachers[groups[i].teacher] === undefined){
         teachers[groups[i].teacher] = {
           name: groups[i].teacher,selected :true,
-          groups : [],
-          groupsArray : {}
+          groups : []
         };
       }
       teachers[groups[i].teacher].groups.push(groups[i].code);
