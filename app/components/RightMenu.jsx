@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
+var ProfessionChooser = require('./ProfessionChooser.jsx');
 
 var RightMenu = React.createClass({
 
@@ -11,6 +12,11 @@ var RightMenu = React.createClass({
     // and shown when there are subjects.
     return (
     <div className="ui blue inverted menu">
+      <div className="left menu">
+        <div className="item">
+          <ProfessionChooser/>
+        </div>
+      </div>
       <a classNameName="active item">
         <i className="home icon"></i> {this.props.message}
       </a>
@@ -20,7 +26,13 @@ var RightMenu = React.createClass({
       <a className="item">
         <i className="user icon"></i> Friends
       </a>
+      <div className="right menu">
+        <div className="item">
+          <ProfessionChooser/>
+        </div>
+      </div>
     </div>
+
     );
   }
 });

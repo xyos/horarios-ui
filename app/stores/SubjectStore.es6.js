@@ -7,12 +7,27 @@ var $ = require('jquery');
 var Colors = require('../constants/Colors');
 var CHANGE_EVENT = 'change';
 
+var _professions = [];
 var _subjects = {};
 var _availableColors = [];
+
 for(var color in Colors){
   _availableColors.push(color);
 }
 var SubjectStore = assign({}, EventEmitter.prototype, {
+
+  setProfessions : function(){
+    $.ajax({
+      url: "http://bogota.nomeroben.com/api/v1.0/professions/",
+      dataType: 'json',
+      success: function(data){
+        console.log(data);
+        _professions = data;
+        SubjectStore.emit(CHANGE_EVENT);
+      }
+    });
+
+  },
 
   init: function(rawSubjects) {
     _subjects = rawSubjects;
@@ -21,6 +36,10 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
     //ScheduleActions.update(_subjects);
     this.emit(CHANGE_EVENT);
+  },
+
+  getProfessions:function() {
+    return _professions;
   },
 
   /**

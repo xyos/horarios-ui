@@ -12,7 +12,8 @@ var AutoComplete = React.createClass({
     ]),
     value: React.PropTypes.object,
     onChange: React.PropTypes.func,
-    onError: React.PropTypes.func
+    onError: React.PropTypes.func,
+    placeHolder : React.PropTypes.string
   },
 
   getDefaultProps: function() {

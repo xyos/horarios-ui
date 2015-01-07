@@ -11,6 +11,7 @@ var CHANGE_EVENT = 'change';
 
 var _schedules = [];
 var _currentSchedule = 0;
+var _profession = {};
 
 var ScheduleStore = assign({}, EventEmitter.prototype, {
 

@@ -17,7 +17,7 @@ var ProfessionChooser = require('./ProfessionChooser.jsx');
 
 window.History = History;
 window.React = React;
-
+SubjectStore.setProfessions();
 var hash = History.getState().hash;
 
 var getState = function() {
