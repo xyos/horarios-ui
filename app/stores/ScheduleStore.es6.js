@@ -46,7 +46,6 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
 
   getAll: function() {
     return _schedules;
-    ScheduleStore.emitChange();
   },
   setCurrent(id){
     _currentSchedule = id;

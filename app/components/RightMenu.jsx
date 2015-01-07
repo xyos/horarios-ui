@@ -12,20 +12,16 @@ var RightMenu = React.createClass({
     // and shown when there are subjects.
     return (
     <div className="ui blue inverted menu">
-      <div className="left menu">
-
-      </div>
-      <a classNameName="active item">
-        <i className="home icon"></i> {this.props.message}
-      </a>
       <a className="item">
-        <i className="mail icon"></i> Messages
-      </a>
-      <a className="item">
-        <i className="user icon"></i> Friends
+        <i className="linkify icon"></i> Compartir
       </a>
       <div className="right menu">
-
+        <a className="item">
+          <i className="facebook icon"></i> Facebook
+        </a>
+        <a className="item">
+          <i className="github icon"></i> Github
+        </a>
       </div>
     </div>
 
