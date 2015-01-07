@@ -83,11 +83,6 @@ React.renderComponent(app, document.getElementById('search'));
 $('.ui.checkbox')
   .checkbox()
 ;
-$('.dropdown')
-  .dropdown({
-    transition: 'drop'
-  })
-;
 Loader = require('../utils/Loader');
 Loader(hash);
 

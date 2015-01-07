@@ -8,5 +8,6 @@ module.exports = keyMirror({
   SUBJECT_SELECT_GROUPS: null,
   SUBJECT_SELECT_TEACHER: null,
   SUBJECT_SELECT: null,
-  SUBJECT_LOAD: null
+  SUBJECT_LOAD: null,
+  PROFESSION_SET: null
 });

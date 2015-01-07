@@ -10,6 +10,7 @@ var CHANGE_EVENT = 'change';
 var _professions = [];
 var _subjects = {};
 var _availableColors = [];
+var _currentProfession = {code: '', name: ''};
 
 for(var color in Colors){
   _availableColors.push(color);
@@ -21,7 +22,6 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       url: "http://bogota.nomeroben.com/api/v1.0/professions/",
       dataType: 'json',
       success: function(data){
-        console.log(data);
         _professions = data;
         SubjectStore.emit(CHANGE_EVENT);
       }
@@ -73,9 +73,11 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
         return groups[i].teacher;
       }
     }
-    console.log(subject);
-    console.log(group);
     return "No Asignado";
+  },
+
+  getProfession: function(){
+    return _currentProfession
   },
 
   setRaw: function(subjects){
@@ -111,9 +113,7 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       }
       teachers[groups[i].teacher].groups.push(groups[i].code);
     }
-
     var color = _availableColors.splice((Math.floor(Math.random() * _availableColors.length)),1)[0];
-    console.log(color);
     _subjects[subject.id] = {
       id: subject.id,
       name: name,
@@ -174,7 +174,6 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
       break;
 
     case SubjectConstants.SUBJECT_SELECT_TEACHER:
-      console.log(action);
       for(var i = 0; i < action.teacher.groups.length; i++){
         var code = action.teacher.groups[i];
         var subject = action.teacher.subject;
@@ -191,6 +190,11 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
 
       _subjects[action.group.subject].groups[action.group.group - 1].selected =
         !_subjects[action.group.subject].groups[action.group.group - 1].selected;
+      SubjectStore.emitChange();
+      break;
+
+    case SubjectConstants.PROFESSION_SET:
+      _currentProfession = action.profession;
       SubjectStore.emitChange();
       break;
 

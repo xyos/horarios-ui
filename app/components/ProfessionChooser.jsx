@@ -2,10 +2,13 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var SubjectStore = require('../stores/SubjectStore');
 var StringUtils = require('../utils/String');
+var AutoComplete = require('./Autocomplete');
+var SubjectActions = require('../actions/SubjectActions');
 
 var getState = function() {
   return {
-    professions  : SubjectStore.getProfessions()
+    professions  : SubjectStore.getProfessions(),
+    profession   : SubjectStore.getProfession()
   };
 };
 
@@ -20,6 +23,7 @@ var ProfessionItem = React.createClass({
 var ProfessionChooser = React.createClass({
 
   getInitialState : function() {
+
     return getState();
   },
 
@@ -44,19 +48,26 @@ var ProfessionChooser = React.createClass({
   render: function() {
     var professions = [];
     for(var i=0; i< this.state.professions.length; i++){
-      var name = this.state.professions[i].name;
+      var name = StringUtils.latinize(this.state.professions[i].name);
       var code = this.state.professions[i].code;
-      professions.push(<ProfessionItem name={name} code={code}/>);
+      professions.push({id:code,title:name});
     }
     return (
-      <div className="ui fluid floating dropdown labeled search icon button">
-        <i className="book icon"></i>
-        <span className="text">Seleccione su Carrera</span>
-        <div className="menu">
-        {professions}
-        </div>
-      </div>
+        <AutoComplete
+          options={professions}
+          onChange={this._selectProfession}
+          className="ui fluid floating dropdown labeled search icon button"
+          placeHolder="Elija su carrera..."
+          id="searchBox1"
+          span={true}
+          reset={false}
+          value={this.state.profession.name}
+        />
     );
+  },
+  _selectProfession: function(profession){
+    profession = profession.id ? profession : {code: '', name: ''};
+    SubjectActions.setProfession({code: profession.id, name: profession.title});
   }
 });
 

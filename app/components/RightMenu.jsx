@@ -13,9 +13,7 @@ var RightMenu = React.createClass({
     return (
     <div className="ui blue inverted menu">
       <div className="left menu">
-        <div className="item">
-          <ProfessionChooser/>
-        </div>
+
       </div>
       <a classNameName="active item">
         <i className="home icon"></i> {this.props.message}
@@ -27,9 +25,7 @@ var RightMenu = React.createClass({
         <i className="user icon"></i> Friends
       </a>
       <div className="right menu">
-        <div className="item">
-          <ProfessionChooser/>
-        </div>
+
       </div>
     </div>
 

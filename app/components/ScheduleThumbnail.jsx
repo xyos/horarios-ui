@@ -20,9 +20,6 @@ var ScheduleThumbnail = React.createClass({
       }
 
 
-        console.log("[DEBUG]");
-        console.log(schedules);
-
       context.fillStyle = 'white';
       context.lineWidth = lineWidth;
       context.strokeStyle = 'gray';

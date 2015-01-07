@@ -11,7 +11,7 @@ var CHANGE_EVENT = 'change';
 
 var _schedules = [];
 var _currentSchedule = 0;
-var _profession = {};
+
 
 var ScheduleStore = assign({}, EventEmitter.prototype, {
 
@@ -55,7 +55,6 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
   getCurrent() {
     return _currentSchedule;
   },
-
   setRaw: function(schedules){
     _schedules = schedules;
     ScheduleStore.emitChange();
@@ -97,7 +96,8 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     action.actionType === SubjectConstants.SUBJECT_SELECT_GROUP||
     action.actionType === SubjectConstants.SUBJECT_SELECT ||
     action.actionType === SubjectConstants.SUBJECT_SELECT_TEACHER ||
-    action.actionType === SubjectConstants.SUBJECT_SELECT_GROUPS
+    action.actionType === SubjectConstants.SUBJECT_SELECT_GROUPS ||
+    action.actionType === SubjectConstants.PROFESSION_SET
   ){
     setTimeout( function(){
       var subjects = SubjectStore.getAll();
@@ -110,11 +110,7 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     },300);
 
   }
-  //switch(action.actionType) {
-  //
-  //  default:
-  //
-  //}
+
 });
 
 module.exports = ScheduleStore;

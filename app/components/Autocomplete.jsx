@@ -1,6 +1,8 @@
 var React   = require('react/addons');
 var cx      = React.addons.classSet;
 var _ = require('lodash');
+var jquery = require('jquery');
+
 var AutoComplete = React.createClass({
 
   propTypes: {
@@ -34,7 +36,10 @@ var AutoComplete = React.createClass({
       focusedValue: null
     };
   },
+  focusInput: function() {
 
+
+  },
   render: function() {
     var className = cx(
       this.props.className,
@@ -47,6 +52,43 @@ var AutoComplete = React.createClass({
       position: 'relative',
       outline: 'none'
     };
+    if(this.props.span){
+      var text = (this.props.value == "") ? this.props.placeHolder : this.props.value;
+      return (
+        <div
+          tabIndex="1"
+          className={className}
+          onFocus={this.onFocus}
+          onBlur={this.onBlur}
+          onClick={this.showAllResults}
+          style={style}>
+          <i className="book icon"></i>
+          <span  className="text">{text}</span>
+          <input
+            id={this.props.id}
+            ref="search"
+            className="search"
+            style={{width: '100%'}}
+            onClick={this.showAllResults}
+            onChange={this.onQueryChange}
+            onFocus={this.showAllResults}
+            onBlur={this.onQueryBlur}
+            onKeyDown={this.onQueryKeyDown}
+            value={this.state.searchTerm}
+            placeholder={this.props.placeHolder}
+          />
+          <Results
+            className="react-autocomplete-Autocomplete__results autocomplete_select"
+            onSelect={this.onValueChange}
+            onFocus={this.onValueFocus}
+            results={this.state.results}
+            focusedValue={this.state.focusedValue}
+            show={this.state.showResults}
+            renderer={this.props.resultRenderer}
+          />
+        </div>
+      );
+    }
     return (
       <div
         tabIndex="1"
@@ -112,6 +154,14 @@ var AutoComplete = React.createClass({
   showAllResults: function() {
     if (!this.state.showResultsInProgress && !this.state.showResults) {
       this.showResults('');
+      if(this.props.span){
+        var that = this;
+        setTimeout( function(){
+          that.state.searchTerm = "";
+
+          $('#' + that.props.id).focus();
+        },10);
+      }
     }
   },
 
@@ -128,6 +178,7 @@ var AutoComplete = React.createClass({
 
     if (this.props.onChange) {
       this.props.onChange(value);
+      state.searchTerm = value.title;
     }
     if (this.props.reset) {
       this.reset();
@@ -341,7 +392,6 @@ var Result = React.createClass({
       'item': true,
       'item active': this.props.focused
     });
-
     return (
       <div
         style={{listStyleType: 'none'}}

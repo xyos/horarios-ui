@@ -44,6 +44,12 @@ var SubjectActions = {
       actionType : SubjectConstants.SUBJECT_LOAD,
       subjects : subjects
     });
+  },
+  setProfession : profession => {
+    AppDispatcher.handleViewAction({
+      actionType : SubjectConstants.PROFESSION_SET,
+      profession : profession
+    });
   }
 
 };

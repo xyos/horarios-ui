@@ -18,7 +18,6 @@ var CalendarItem = React.createClass({
       "event",
       this.props.subject.color.css
     );
-    console.log(this.props.subject);
     return (
       <div
         className={itemClass}
