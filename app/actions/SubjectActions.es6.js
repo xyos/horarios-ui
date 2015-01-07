@@ -21,12 +21,19 @@ var SubjectActions = {
       id : id
     });
   },
+  selectTeacher : teacher => {
+    AppDispatcher.handleViewAction({
+      actionType : SubjectConstants.SUBJECT_SELECT_TEACHER,
+      teacher : teacher
+    });
+  },
   selectGroup : group => {
     AppDispatcher.handleViewAction({
       actionType : SubjectConstants.SUBJECT_SELECT_GROUP,
       group : group
     });
-  },  setGroupsSelection : groups => {
+  },
+  setGroupsSelection : groups => {
     AppDispatcher.handleViewAction({
       actionType : SubjectConstants.SUBJECT_SELECT_GROUPS,
       group : groups

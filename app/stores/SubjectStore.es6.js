@@ -94,6 +94,7 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   add: function(subject,data){
     var groups = data.groups;
     var name = StringUtils.humanize(data.name);
+    var teachers = {};
     for (var i = 0, len = groups.length; i<len; i++){
       groups[i].selected = true;
       if(groups[i].teacher.trim() === ""){
@@ -101,7 +102,16 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       } else {
         groups[i].teacher = StringUtils.humanize(groups[i].teacher);
       }
+      if(teachers[groups[i].teacher] === undefined){
+        teachers[groups[i].teacher] = {
+          name: groups[i].teacher,selected :true,
+          groups : [],
+          groupsArray : {}
+        };
+      }
+      teachers[groups[i].teacher].groups.push(groups[i].code);
     }
+
     var color = _availableColors.splice((Math.floor(Math.random() * _availableColors.length)),1)[0];
     console.log(color);
     _subjects[subject.id] = {
@@ -111,7 +121,8 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       groups: data.groups,
       type: data.type,
       credits: data.credits,
-      color: Colors[color]
+      color: Colors[color],
+      teachers: teachers
     };
     SubjectStore.emitChange();
   }
@@ -156,6 +167,20 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
         for(var group in _subjects[action.group.subject].groups){
           if(_subjects[action.group.subject].groups[group].code == code){
             _subjects[action.group.subject].groups[group].selected =action.group.selected;
+          }
+        }
+      }
+      SubjectStore.emitChange();
+      break;
+
+    case SubjectConstants.SUBJECT_SELECT_TEACHER:
+      console.log(action);
+      for(var i = 0; i < action.teacher.groups.length; i++){
+        var code = action.teacher.groups[i];
+        var subject = action.teacher.subject;
+        for(var group in _subjects[subject].groups){
+          if(_subjects[subject].groups[group].code == code){
+            _subjects[subject].groups[group].selected = action.teacher.selected;
           }
         }
       }
