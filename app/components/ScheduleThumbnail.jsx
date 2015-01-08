@@ -6,25 +6,22 @@ var ScheduleThumbnail = React.createClass({
 
     draw : function (context, schedules, x, y, lineWidth) {
 
-      function roundedRect(x, y, w, h, r, context) {
+      function rect(x, y, w, h, r, context) {
         context.beginPath();
-        context.moveTo(x + r, y);
-        context.lineTo(x + w - r, y);
-        context.quadraticCurveTo(x + w, y, x + w, y + r);
-        context.lineTo(x + w, y + h - r);
-        context.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-        context.lineTo(x + r, y + h);
-        context.quadraticCurveTo(x, y + h, x, y + h - r);
-        context.lineTo(x, y + r);
-        context.quadraticCurveTo(x, y, x + r, y);
+        context.moveTo(x, y);
+        context.lineTo(x + w, y);
+        context.lineTo(x + w, y + h);
+        context.lineTo(x, y + h);
+        context.lineTo(x, y);
       }
 
       context.fillStyle = 'white';
       context.lineWidth = lineWidth;
-      context.strokeStyle = 'gray';
-      roundedRect(x, y, this.props.w, this.props.h, 1, context);
+      context.strokeStyle = 'white';
+      rect(x, y, this.props.w, this.props.h, 1, context);
       context.fill();
       context.stroke();
+      context.strokeStyle = 'gray';
       var dayWidth = this.props.w / 7.0;
       var hourHeight = this.props.h / 24.0;
 
@@ -74,7 +71,7 @@ var ScheduleThumbnail = React.createClass({
                 1, 1, 0.5);
     content = this.canvas.toDataURL();
     return (
-      <img src={content}/>
+      <img className="ui bordered image" src={content}/>
     );
   }
 });
