@@ -78,8 +78,11 @@ var ScheduleThumbnail = React.createClass({
       this.props.selected ? 'active' : ''
     );
     return (
-      <img className={className} src={content}/>
+      <img className={className} src={content} onClick={this.selectSchedule}/>
     );
+  },
+  selectSchedule: function(){
+    ScheduleActions.setCurrent(this.props.key);
   }
 });
 
