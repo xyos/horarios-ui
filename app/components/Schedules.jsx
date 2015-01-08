@@ -82,10 +82,9 @@ var Schedules = React.createClass({
         React.renderComponent(Calendar({key:key, day : days[key]}), domObject);
       }
     }
-    React.renderComponent(SchedulesPager({schedules:this.state.allSchedules}), document.getElementById("schedules-pager"));
+    React.renderComponent(SchedulesPager({schedules:this.state.allSchedules,current:this.state.currentSchedule}), document.getElementById("schedules-pager"));
     return (
       <div></div>
-        
     );
   }
 });

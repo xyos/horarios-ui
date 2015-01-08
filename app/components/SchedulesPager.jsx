@@ -48,7 +48,6 @@ var PagerMenu = React.createClass({
   }
 });
 
-
 var SchedulesPager = React.createClass({
   getInitialState : function() {
     return getState();
@@ -86,6 +85,7 @@ var SchedulesPager = React.createClass({
         i < ((this.state.selectedPage + 1) *6) ;i++){
       console.log("adding");
       schedules.push(<ScheduleThumbnail key={i} w={100} h={50} groups={this.props.schedules[i].groups}/>) }
+
     return (
       <div className="ui segment row">
       <div className="image-pager">
