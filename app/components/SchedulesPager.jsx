@@ -85,11 +85,9 @@ var SchedulesPager = React.createClass({
     }
 
     return (
-      <div className="ui segment row">
       <div className="image-pager">
         <div className="ui segment inverted purple secondary schedules"> {schedules} </div>
         <PagerMenu pages={pages} selected={this.state.selectedPage} onPageChange={this.changePage}/>
-      </div>
       </div>
     );
   },
