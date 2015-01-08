@@ -2,6 +2,7 @@ var React = require('react');
 require('../style/app.less');
 require('semantic-ui/dist/semantic.css');
 require('semantic-ui/dist/semantic.js');
+require('../style/responsive.less');
 var SubjectStore = require('stores/SubjectStore');
 var ScheduleStore = require('stores/ScheduleStore');
 var SubjectActions = require('actions/SubjectActions');
