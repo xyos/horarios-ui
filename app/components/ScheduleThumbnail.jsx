@@ -1,7 +1,8 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var Colors = require('../constants/Colors');
-
+var ScheduleActions = require('../actions/ScheduleActions');
+var cx = require('react/lib/cx');
 var ScheduleThumbnail = React.createClass({
 
     draw : function (context, schedules, x, y, lineWidth) {
@@ -70,8 +71,14 @@ var ScheduleThumbnail = React.createClass({
                 this.props.groups, 
                 1, 1, 0.5);
     content = this.canvas.toDataURL();
+    var className = cx(
+      'ui',
+      'bordered',
+      'image',
+      this.props.selected ? 'active' : ''
+    );
     return (
-      <img className="ui bordered image" src={content}/>
+      <img className={className} src={content}/>
     );
   }
 });

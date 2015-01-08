@@ -77,19 +77,17 @@ var SchedulesPager = React.createClass({
     }
     var pages = Math.ceil(schedulesNumber / 6);
     var currentPage = this.state.currentSchedule/6;
-    console.log(this.state.selectedPage*6);
-    console.log((this.state.selectedPage + 1) *6);
-
     for(var i = (this.state.selectedPage*6);
         i < this.props.schedules.length &&
         i < ((this.state.selectedPage + 1) *6) ;i++){
-      console.log("adding");
-      schedules.push(<ScheduleThumbnail key={i} w={100} h={50} groups={this.props.schedules[i].groups}/>) }
+      var selected = (i===this.state.currentSchedule);
+      schedules.push(<ScheduleThumbnail selected={selected} key={i} w={100} h={50} groups={this.props.schedules[i].groups}/>)
+    }
 
     return (
       <div className="ui segment row">
       <div className="image-pager">
-        <div className="ui segment tertiary schedules"> {schedules} </div>
+        <div className="ui segment inverted purple secondary schedules"> {schedules} </div>
         <PagerMenu pages={pages} selected={this.state.selectedPage} onPageChange={this.changePage}/>
       </div>
       </div>
