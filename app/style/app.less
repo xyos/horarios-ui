@@ -1,19 +1,4 @@
 @import "~bootstrap/less/bootstrap.less";
-// ............................................................
-// .for
-
-.for(@i, @n) {.-each(@i)}
-.for(@n)     when (isnumber(@n)) {.for(1, @n)}
-.for(@i, @n) when not (@i = @n)  {
-  .for((@i + (@n - @i) / abs(@n - @i)), @n);
-}
-
-// ............................................................
-// .for-each
-
-.for(@array)   when (default()) {.for-impl_(length(@array))}
-.for-impl_(@i) when (@i > 1)    {.for-impl_((@i - 1))}
-.for-impl_(@i) when (@i > 0)    {.-each(extract(@array, @i))}
 
 
 .react-autocomplete-Autocomplete__results {
@@ -37,7 +22,7 @@
 }
 
 .main {
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .no-show > div {
@@ -104,7 +89,7 @@ input[type="checkbox"].toggle {
 }
 
 .week.ui.segment {
-  height: 570px;
+  height: 610px;
   margin-top: 0px;
 }
 @separation : 1/6;
@@ -171,24 +156,24 @@ input[type="checkbox"].toggle {
 @complements : 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'black', 'black', 'black', 'black', 'black', 'white', 'white', 'black', 'white';
 
 .header.item {
-  .-(@i: length(@colors)) when (@i > 0) {
+  .f(@i: length(@colors)) when (@i > 0) {
   @name: e(extract(@colors, @i));
   @complement: e(extract(@complements, @i));
   &.@{name} {background: @@name !important; color: @@complement !important;}
-  .-((@i - 1));
-} .-;
+  .f((@i - 1));
+} .f;
 }
 .header.item {
-  .-(@i: length(@colors)) when (@i > 0) {
+  .f(@i: length(@colors)) when (@i > 0) {
   @name: e(extract(@colors, @i));
   @complement: e(extract(@complements, @i));
   &.@{name} > a {color: @@complement !important;}
-  .-((@i - 1));
-} .-;
+  .f((@i - 1));
+} .f;
 }
 
 .event {
-  .-(@i: length(@colors)) when (@i > 0) {
+  .f(@i: length(@colors)) when (@i > 0) {
   @name: e(extract(@colors, @i));
   @complement: e(extract(@complements, @i));
   &.@{name} {
@@ -196,8 +181,8 @@ input[type="checkbox"].toggle {
     color: @@complement !important;
     text-align: center;
   }
-  .-((@i - 1));
-} .-;
+  .f((@i - 1));
+} .f;
 }
 
 .header.item > .menu {
@@ -206,7 +191,6 @@ input[type="checkbox"].toggle {
 .header.grey{
   color: red !important;
 }
-
 
 .engraved-text{
     background-color: #666666;
@@ -217,4 +201,22 @@ input[type="checkbox"].toggle {
     text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
     font-size:2.5em;
     font-weight:bold;
+}
+.menu.transition.visible {
+  overflow-y: scroll !important;
+}
+
+div.react-autocomplete-Autocomplete--resultsShown > span.text{
+  visibility:hidden !important;
+}
+div.react-autocomplete-Autocomplete > input.search {
+  visibility: hidden !important;
+}
+
+div.react-autocomplete-Autocomplete--resultsShown > input.search {
+  visibility: visible !important;
+}
+
+#right-menu{
+  padding-bottom: 0px;
 }

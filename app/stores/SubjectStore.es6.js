@@ -7,12 +7,27 @@ var $ = require('jquery');
 var Colors = require('../constants/Colors');
 var CHANGE_EVENT = 'change';
 
+var _professions = [];
 var _subjects = {};
 var _availableColors = [];
+var _currentProfession = {code: '', name: ''};
+
 for(var color in Colors){
   _availableColors.push(color);
 }
 var SubjectStore = assign({}, EventEmitter.prototype, {
+
+  setProfessions : function(){
+    $.ajax({
+      url: "http://bogota.nomeroben.com/api/v1.0/professions/",
+      dataType: 'json',
+      success: function(data){
+        _professions = data;
+        SubjectStore.emit(CHANGE_EVENT);
+      }
+    });
+
+  },
 
   init: function(rawSubjects) {
     _subjects = rawSubjects;
@@ -21,6 +36,10 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   emitChange: function() {
     //ScheduleActions.update(_subjects);
     this.emit(CHANGE_EVENT);
+  },
+
+  getProfessions:function() {
+    return _professions;
   },
 
   /**
@@ -47,6 +66,11 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   getAll: function() {
     return _subjects;
   },
+
+  getAvailableColors: function(){
+    return _availableColors;
+  },
+
   getTeacher: function(subject,group) {
     var groups = _subjects[subject].groups;
     for(var i = 0; i< groups.length; i++){
@@ -54,13 +78,17 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
         return groups[i].teacher;
       }
     }
-    console.log(subject);
-    console.log(group);
     return "No Asignado";
   },
 
-  setRaw: function(subjects){
-    _subjects = subjects;
+  getProfession: function(){
+    return _currentProfession
+  },
+
+  setRaw: function(raw){
+    _subjects = raw.subjects;
+    _availableColors = raw.colors;
+    _currentProfession = raw.profession;
     SubjectStore.emitChange();
   },
 
@@ -75,6 +103,7 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   add: function(subject,data){
     var groups = data.groups;
     var name = StringUtils.humanize(data.name);
+    var teachers = {};
     for (var i = 0, len = groups.length; i<len; i++){
       groups[i].selected = true;
       if(groups[i].teacher.trim() === ""){
@@ -82,9 +111,15 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       } else {
         groups[i].teacher = StringUtils.humanize(groups[i].teacher);
       }
+      if(teachers[groups[i].teacher] === undefined){
+        teachers[groups[i].teacher] = {
+          name: groups[i].teacher,selected :true,
+          groups : []
+        };
+      }
+      teachers[groups[i].teacher].groups.push(groups[i].code);
     }
     var color = _availableColors.splice((Math.floor(Math.random() * _availableColors.length)),1)[0];
-    console.log(color);
     _subjects[subject.id] = {
       id: subject.id,
       name: name,
@@ -92,7 +127,8 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       groups: data.groups,
       type: data.type,
       credits: data.credits,
-      color: Colors[color]
+      color: Colors[color],
+      teachers: teachers
     };
     SubjectStore.emitChange();
   }
@@ -143,10 +179,28 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
       SubjectStore.emitChange();
       break;
 
+    case SubjectConstants.SUBJECT_SELECT_TEACHER:
+      for(var i = 0; i < action.teacher.groups.length; i++){
+        var code = action.teacher.groups[i];
+        var subject = action.teacher.subject;
+        for(var group in _subjects[subject].groups){
+          if(_subjects[subject].groups[group].code == code){
+            _subjects[subject].groups[group].selected = action.teacher.selected;
+          }
+        }
+      }
+      SubjectStore.emitChange();
+      break;
+
     case SubjectConstants.SUBJECT_SELECT_GROUP:
 
       _subjects[action.group.subject].groups[action.group.group - 1].selected =
         !_subjects[action.group.subject].groups[action.group.group - 1].selected;
+      SubjectStore.emitChange();
+      break;
+
+    case SubjectConstants.PROFESSION_SET:
+      _currentProfession = action.profession;
       SubjectStore.emitChange();
       break;
 

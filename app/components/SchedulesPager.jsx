@@ -8,11 +8,11 @@ var SchedulesPager = React.createClass({
    * @return {object}
    */
   render: function() {
-    schedules = []
+    schedules = [];
     for(var k in this.props.schedules){
         schedules.push(<ScheduleSelect key={k} w={100} h={50} groups={this.props.schedules[k].groups} selected={this.props.current==k}/>) }
     return (
-      <div className="schedules-pager">
+      <div className="ui blue segment">
         {schedules}
       </div>
     );

@@ -12,6 +12,7 @@ var CHANGE_EVENT = 'change';
 var _schedules = [];
 var _currentSchedule = 0;
 
+
 var ScheduleStore = assign({}, EventEmitter.prototype, {
 
   init: function(rawSchedules) {
@@ -45,7 +46,6 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
 
   getAll: function() {
     return _schedules;
-    ScheduleStore.emitChange();
   },
   setCurrent(id){
     _currentSchedule = id;
@@ -54,9 +54,9 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
   getCurrent() {
     return _currentSchedule;
   },
-
-  setRaw: function(schedules){
-    _schedules = schedules;
+  setRaw: function(raw){
+    _schedules = raw.schedules;
+    _currentSchedule = raw.currentSchedule;
     ScheduleStore.emitChange();
   },
 
@@ -82,7 +82,9 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
   var action = payload.action;
 
   switch(action.actionType) {
-
+    case ScheduleConstants.SCHEDULE_LOAD:
+      ScheduleStore.setRaw(action.schedules);
+      break;
     case ScheduleConstants.SCHEDULE_SET_CURRENT:
       ScheduleStore.setCurrent(action.id);
       break;
@@ -95,11 +97,14 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     action.actionType === SubjectConstants.SUBJECT_DELETE||
     action.actionType === SubjectConstants.SUBJECT_SELECT_GROUP||
     action.actionType === SubjectConstants.SUBJECT_SELECT ||
-    action.actionType === SubjectConstants.SUBJECT_SELECT_GROUPS
+    action.actionType === SubjectConstants.SUBJECT_SELECT_TEACHER ||
+    action.actionType === SubjectConstants.SUBJECT_SELECT_GROUPS ||
+    action.actionType === SubjectConstants.PROFESSION_SET
   ){
     setTimeout( function(){
       var subjects = SubjectStore.getAll();
-      var url = ScheduleUtils.generateScheduleURL(subjects);
+      var profession = SubjectStore.getProfession();
+      var url = ScheduleUtils.generateScheduleURL(subjects,profession.code);
       $.ajax({
         url: "http://bogota.nomeroben.com/api/v1.0/schedule/" + url,
         dataType: 'json',
@@ -108,11 +113,7 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     },300);
 
   }
-  //switch(action.actionType) {
-  //
-  //  default:
-  //
-  //}
+
 });
 
 module.exports = ScheduleStore;

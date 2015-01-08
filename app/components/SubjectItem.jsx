@@ -43,13 +43,13 @@ var TeacherItem = React.createClass({
 
   getInitialState: function() {
     return {
-      noShow: true,
-      selected: true
+      noShow: false,
+      selected: this.props.teacher.selected
     };
   },
 
   propTypes: {
-    teacher: ReactPropTypes.object.isRequired,
+    teacher: ReactPropTypes.object.isRequired
   },
 
   /**
@@ -70,10 +70,10 @@ var TeacherItem = React.createClass({
           onChange={this._onSelection}
         />
         <a onClick={this._onClick}>
-            {this.props.teacher.teacher}
+            {this.props.teacher.name}
         </a>
 
-        <div className="menu">{this.props.teacher.groups}</div>
+        <div className="menu">{this.props.groups}</div>
       </div>
     );
   },
@@ -83,8 +83,11 @@ var TeacherItem = React.createClass({
   },
 
   _onSelection: function() {
-    SubjectActions.setGroupsSelection({subject : this.props.teacher.groups[0].props.subject,
-        groups:this.props.teacher.groups, selected: !this.state.selected});
+    SubjectActions.selectTeacher({
+      subject : this.props.subject,
+      groups  : this.props.teacher.groups,
+      selected: !this.state.selected
+    });
     this.state.selected = !this.state.selected;
   }
 
@@ -114,21 +117,17 @@ var SubjectItem = React.createClass({
       this.state.noShow ? 'no-show' : '',
       subject.color.css
     );
-    var teachers = {};
-    var allGroups = this.props.subject.groups;
-    for(var key in allGroups){
-      if(teachers[allGroups[key].teacher] === undefined){
-        teachers[allGroups[key].teacher] = {teacher:allGroups[key].teacher};
-        teachers[allGroups[key].teacher].groups =[];
-      }
-
-      k = this.props.subject.id + key;
-      teachers[allGroups[key].teacher].groups.push(<GroupItem key={k} group={allGroups[key]} subject={subject.id}/>);
-
-    }
+    var teachers = this.props.subject.teachers;
+    var groups = this.props.subject.groups;
     var teachersArray = [];
-    for(var key in teachers){
-      teachersArray.push(<TeacherItem teacher={teachers[key]}/>);
+    for(var teacher in teachers){
+      var groupsArray = {};
+      for(var group in groups){
+        if(teacher  == groups[group].teacher){
+          groupsArray[group] = <GroupItem group={groups[group]} subject={subject.id}/>;
+        }
+      }
+      teachersArray.push(<TeacherItem teacher={teachers[teacher]} subject={this.props.subject.id} groups={groupsArray}/>);
     }
     return (
       <div

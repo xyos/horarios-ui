@@ -22,7 +22,7 @@ var ScheduleThumbnail = React.createClass({
       context.fillStyle = 'white';
       context.lineWidth = lineWidth;
       context.strokeStyle = 'gray';
-      roundedRect(x, y, this.props.w, this.props.h, 10, context);
+      roundedRect(x, y, this.props.w, this.props.h, 1, context);
       context.fill();
       context.stroke();
       var dayWidth = this.props.w / 7.0;

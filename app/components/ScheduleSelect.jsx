@@ -23,7 +23,7 @@ var SchduleSelect = React.createClass({
     return (
       <div className="col-sm-2 col-md-2">
       <div className="thumbnail">
-      <ScheduleThumbnail key={k} w={100} h={50} groups={this.props.groups}/>
+      <ScheduleThumbnail key={this.props.key} w={100} h={50} groups={this.props.groups}/>
         <div className="caption">
           <p><button type="button" className={buttonClasses} onClick={this.onClick}>Horario {this.props.key}</button></p>
         </div>

@@ -12,7 +12,7 @@ var ScheduleActions = {
   loadRaw : schedules => {
     AppDispatcher.handleServerAction({
       actionType : ScheduleConstants.SCHEDULE_LOAD,
-      subjects : schedules
+      schedules: schedules
     });
   }
 

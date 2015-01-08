@@ -1,24 +1,8 @@
 var decimalToSchedString = function (value) {
   return ( parseInt(value, 10) + Math.pow(2, 25) ).toString(2).substring(2).split('').reverse().join('');
 };
-var transpose = function (arr, schedItem) {
-  var trans = [];
-  _.each(arr, function (row, x) {
-    _.each(row, function (col, y) {
-      if (!trans[y]) {
-        trans[y] = [];
-      }
-      if (col === '1') {
-        trans[y][x] = schedItem;
-      } else {
-        trans[y][x] = (schedItem === true) ? false : {};
-      }
-    });
-  });
-  return trans;
-};
 module.exports = {
-  generateScheduleURL : function(subjects){
+  generateScheduleURL : function(subjects, profession){
     var url = "";
 
     for(var key in subjects){
@@ -37,7 +21,8 @@ module.exports = {
 
     }
     return "subjects=" + url.substring(1) + "&busy=0,0,0,0,0,0,0";
+    // TODO: uncomment this on profession change
+    // return "subjects=" + url.substring(1) + "&busy=0,0,0,0,0,0,0" + "&profession=" + profession;
   },
-  decimalToSchedString : decimalToSchedString,
-  transpose : transpose
+  decimalToSchedString : decimalToSchedString
 };

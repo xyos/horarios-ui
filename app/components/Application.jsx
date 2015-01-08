@@ -2,6 +2,7 @@ var React = require('react');
 require('../style/app.less');
 require('semantic-ui/dist/semantic.css');
 require('semantic-ui/dist/semantic.js');
+require('../style/responsive.less');
 var SubjectStore = require('stores/SubjectStore');
 var ScheduleStore = require('stores/ScheduleStore');
 var SubjectActions = require('actions/SubjectActions');
@@ -17,7 +18,7 @@ var ProfessionChooser = require('./ProfessionChooser.jsx');
 
 window.History = History;
 window.React = React;
-
+SubjectStore.setProfessions();
 var hash = History.getState().hash;
 
 var getState = function() {
@@ -80,14 +81,12 @@ var Application = React.createClass({
 var app = Application();
 
 React.renderComponent(app, document.getElementById('search'));
-$('.ui.checkbox')
-  .checkbox()
-;
-$('.dropdown')
-  .dropdown({
-    transition: 'drop'
-  })
-;
+(function(window,undefined){
+  History.Adapter.bind(window,'statechange',function(){
+    var State = History.getState();
+    Loader.fromHash(State.hash);
+  });
+})(window);
 Loader = require('../utils/Loader');
-Loader(hash);
+Loader.fromHash(hash);
 

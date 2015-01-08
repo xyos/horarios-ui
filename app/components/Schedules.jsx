@@ -49,15 +49,12 @@ var Schedules = React.createClass({
     var groups = current === undefined ? [{schedule : [0,0,0,0,0,0,0],_schedule:__defaultEmptySchedule}] : current.groups;
     for(var i=0, len = groups.length; i<len; i++){
       var groupSchedule = groups[i]._schedule;
-      console.log(groups[i]);
-
       var subject = SubjectStore.get(groups[i].subject);
       for(var j=0, len1 = groupSchedule.length; j<len1; j++){
         if(days["col"+(j+1)] === undefined){
           days["col"+(j+1)] = [];
         }
         var daySchedule = groupSchedule[j];
-        console.log(daySchedule);
         var top = 16;
         var newElement = true;
         var height = 0;
