@@ -80,9 +80,12 @@ var Application = React.createClass({
 var app = Application();
 
 React.renderComponent(app, document.getElementById('search'));
-$('.ui.checkbox')
-  .checkbox()
-;
+(function(window,undefined){
+  History.Adapter.bind(window,'statechange',function(){
+    var State = History.getState();
+    Loader.fromHash(State.hash);
+  });
+})(window);
 Loader = require('../utils/Loader');
-Loader(hash);
+Loader.fromHash(hash);
 

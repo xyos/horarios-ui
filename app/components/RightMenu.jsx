@@ -1,12 +1,18 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var Saver = require('../utils/Saver');
-
+var history = require('html5-history');
 var RightMenu = React.createClass({
   getLink : function(){
     var json = Saver.getJSON();
-
-    console.log(JSON.stringify(json));
+    $.ajax({
+      type: "POST",
+      url: "http://bogota.nomeroben.com/api/v1.0/sessions/",
+      data: {session:json}
+    }).done(function(data){
+      console.log(data);
+      History.pushState(data.session, "horario:" + data.url, "?l=" + data.url);
+    });
   },
   getText : function(){
     var json = Saver.getText();
