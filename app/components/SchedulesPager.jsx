@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
-var ScheduleThumbnail = require('./ScheduleThumbnail');
+var ScheduleSelect = require('./ScheduleSelect');
 
 var SchedulesPager = React.createClass({
 
@@ -10,9 +10,9 @@ var SchedulesPager = React.createClass({
   render: function() {
     schedules = []
     for(var k in this.props.schedules){
-        schedules.push(<ScheduleThumbnail key={k} w={100} h={50} groups={this.props.schedules[k].groups}/>) }
+        schedules.push(<ScheduleSelect key={k} w={100} h={50} groups={this.props.schedules[k].groups} selected={this.props.current==k}/>) }
     return (
-      <div class="schedules-pager">
+      <div className="schedules-pager">
         {schedules}
       </div>
     );

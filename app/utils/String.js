@@ -11,7 +11,11 @@ var StringUtils = {
   },
   utf8decode : function(text){
     return decodeURIComponent(text);
+  },
+  summarize: function(text){
+    return text.toLowerCase()
+          .replace(/(?!\b\w)([a-z]*)((\b )|\.|$)/g, '')
+          .toUpperCase().substring(0,8);
   }
-
 };
 module.exports = StringUtils;

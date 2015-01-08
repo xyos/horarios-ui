@@ -194,7 +194,6 @@ input[type="checkbox"].toggle {
   &.@{name} {
     background: @@name !important;
     color: @@complement !important;
-    font-size: 12px;
     text-align: center;
   }
   .-((@i - 1));
@@ -206,4 +205,16 @@ input[type="checkbox"].toggle {
 }
 .header.grey{
   color: red !important;
+}
+
+
+.engraved-text{
+    background-color: #666666;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+    font-size:2.5em;
+    font-weight:bold;
 }
