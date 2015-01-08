@@ -10,10 +10,8 @@ var CalendarItem = React.createClass({
    */
   render: function() {
     var divStyle = {
-      position: "absolute",
       height: this.props.height,
-      top: this.props.top,
-      width: "100%",
+      top: this.props.top
     };
     var teacher = SubjectStore.getTeacher(this.props.subject.id, this.props.group);
     var textClass = cx(
@@ -29,7 +27,7 @@ var CalendarItem = React.createClass({
       >
         {StringUtils.summarize(this.props.subject.name)}
       </div>
-      <div className={textClass} style={divStyle}>{teacher}</div>
+      <div className={textClass} style={divStyle}>{teacher + " (" + this.props.group + ")"}</div>
       </div>
     );
   }

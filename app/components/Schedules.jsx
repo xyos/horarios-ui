@@ -83,9 +83,7 @@ var Schedules = React.createClass({
       }
     }
     React.renderComponent(SchedulesPager({schedules:this.state.allSchedules,current:this.state.currentSchedule}), document.getElementById("schedules-pager"));
-    return (
-      <div></div>
-    );
+    return null;
   }
 });
 

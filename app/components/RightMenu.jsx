@@ -25,7 +25,7 @@ var RightMenu = React.createClass({
     // This section should be hidden by default
     // and shown when there are subjects.
     return (
-    <div className="ui blue inverted menu">
+    <div className="ui blue inverted menu main-menu">
       <a className="item" onClick={this.getLink}>
         <i className="save icon"></i> Guardar
       </a>
@@ -33,11 +33,11 @@ var RightMenu = React.createClass({
         <i className="file text icon"></i> Texto
       </a>
       <div className="right menu">
-        <a className="item">
-          <i className="facebook icon"></i> Facebook
+        <a className="item" target="_blank" href="https://www.facebook.com/HorariosUNAL">
+          <i className="facebook icon"></i>
         </a>
-        <a className="item">
-          <i className="github icon"></i> Github
+        <a className="item" target="_blank" href="https://github.com/xyos/horarios">
+          <i className="github icon"></i>
         </a>
       </div>
     </div>
