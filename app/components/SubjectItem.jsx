@@ -141,7 +141,7 @@ var SubjectItem = React.createClass({
             onChange={this._onSelection}
           />
           <a onClick={this._onClick}>
-            {subject.name}
+            {subject.name} - {subject.id}
           </a>
           <div className="menu">{teachersArray}</div>
       </div>

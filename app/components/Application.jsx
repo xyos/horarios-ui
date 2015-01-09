@@ -67,7 +67,7 @@ var Application = React.createClass({
         <div className="item">
           <SearchComponent
             onAdd={this._addSubject}
-
+            profession={this.state.profession}
           />
         </div>
         <Subjects

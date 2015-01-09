@@ -4,11 +4,81 @@ var $ = require('jquery');
 var cx = require('react/lib/cx');
 
 
+var FilterItem = React.createClass({
+  select: function(){
+    this.props.change(this.props.key,!this.props.filter.selected);
+  },
+  render : function(){
+    var className = cx(
+      "ui empty circular label",
+      this.props.filter.selected ? '': 'disabled',
+      this.props.filter.color
+    );
+    return (
+      <div className="item">
+        <input
+          className="toggle"
+          type="checkbox"
+          checked={this.props.filter.selected}
+          onChange={this.select}
+        />
+        <div className={className}></div>
+      {this.props.filter.name}
+      </div>
+    );
+  }
+});
+
 var SearchComponent = React.createClass({
 
-  getInitialState: function() {
+  getInitialState: function () {
     return {
-      noShow: true
+      noShow: true,
+      filters: [
+        {
+          "name": "Nivelación",
+          "color": "yellow",
+          "selected": true,
+          "code": "P"
+        },
+        {
+          "name": "Fundamentación",
+          "color": "blue",
+          "selected": true,
+          "code": "B"
+        },
+        {
+          "name": "Disciplinar",
+          "color": "green",
+          "selected": true,
+          "code": "C"
+        },
+        {
+          "name": "Multiples",
+          "color": "black",
+          "selected": true,
+          "code": "M"
+        },
+        {
+          "name": "Libre Elección",
+          "color": "orange",
+          "selected": true,
+          "code": "L"
+        },
+        {
+          "name": "Obligatoria",
+          "color": "purple",
+          "selected": true,
+          "code": "O"
+        },
+        {
+          "name": "Elegible",
+          "color": "red",
+          "selected": true,
+          "code": "T"
+        }
+      ],
+      filterElements : []
     };
   },
 
@@ -19,15 +89,28 @@ var SearchComponent = React.createClass({
   _onClick: function() {
     this.setState({noShow: !this.state.noShow});
   },
+  changeFilter(index, value){
+    var newState = this.state;
+    newState.filters[index].selected = value;
+    this.setState(newState);
+  },
+  componentWillMount: function(){
+    this.state.filterElements = [];
+    for(var i = 0; i< this.state.filters.length; i++){
+      this.state.filterElements.push(<FilterItem filter={this.state.filters[i]} key={i} change={this.changeFilter}/>);
+    }
+  },
   render : function() {
     var className = cx(
       "ui menu subject-types",
       this.state.noShow ? 'no-show' : ''
     );
+
+
     return (
       <div className="search-menu">
         <AutoComplete
-          options={{url: "http://bogota.nomeroben.com/api/v1.0/subject/autocomplete/"}}
+          options={{url: "http://bogota.nomeroben.com/api/v1.0/subject/autocomplete2/search_term="}}
           search={this._searchRemote}
           onChange={this._selectSubject}
           reset={false}
@@ -36,33 +119,24 @@ var SearchComponent = React.createClass({
         />
         <a onClick={this._onClick}>Búsqueda Avanzada</a>
         <div className={className}>
-            <div className="divider"></div>
-            <div className="item">
-              <div className="ui yellow empty circular label"></div>
-              Nivelación
-            </div>
-            <div className="item">
-              <div className="ui blue empty circular label"></div>
-              Fundamentación
-            </div>
-            <div className="item">
-              <div className="ui green empty circular label"></div>
-              Disciplinar
-            </div>
-            <div className="item">
-              <div className="ui orange empty circular label"></div>
-              Libre Elección
-            </div>
-          </div>
+        {this.state.filterElements}
+        </div>
       </div>
     );
   },
   _searchRemote: function(options, searchTerm, cb) {
-    if (searchTerm.length < 3){
+    if (searchTerm.length < 0){
       return [];
     } else {
+      var subject_type = ["X"];
+      for(var i = 0;i < this.state.filters.length; i++){
+        if(this.state.filters[i].selected == true){
+          subject_type.push(this.state.filters[i].code);
+        }
+      }
+      console.log(subject_type);
       $.ajax({
-        url: options.url + searchTerm + '/',
+        url: options.url + searchTerm + '&profession=' + this.props.profession.code + '&subject_type=' + JSON.stringify(subject_type),
         dataType: 'json',
         success: this._onXHRSuccess.bind(null, cb, searchTerm),
         error: this._onXHRError.bind(null, cb)

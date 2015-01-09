@@ -101,7 +101,6 @@ var AutoComplete = React.createClass({
           ref="search"
           className="react-autocomplete-Autocomplete__search"
           style={{width: '100%'}}
-          onClick={this.showAllResults}
           onChange={this.onQueryChange}
           onFocus={this.showAllResults}
           onBlur={this.onQueryBlur}
