@@ -124,15 +124,15 @@ var SubjectItem = React.createClass({
       var groupsArray = {};
       for(var group in groups){
         if(teacher  == groups[group].teacher){
-          groupsArray[group] = <GroupItem group={groups[group]} subject={subject.id}/>;
+          groupsArray["g" + group] = <GroupItem group={groups[group]} subject={subject.id}/>;
         }
       }
-      teachersArray.push(<TeacherItem teacher={teachers[teacher]} subject={this.props.subject.id} groups={groupsArray}/>);
+      teachersArray.push(<TeacherItem key={teacher  + subject.id} teacher={teachers[teacher]} subject={this.props.subject.id} groups={groupsArray}/>);
     }
     return (
       <div
         className={className}
-        key={subject.id}>
+        key={"s" + subject.id}>
         <i className="remove icon" onClick={this._onDestroyClick} />
           <input
             className="toggle"
