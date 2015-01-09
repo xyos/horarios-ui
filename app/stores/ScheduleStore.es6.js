@@ -101,6 +101,7 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     action.actionType === SubjectConstants.SUBJECT_SELECT_GROUPS ||
     action.actionType === SubjectConstants.PROFESSION_SET
   ){
+    var timeout = (action.actionType === SubjectConstants.SUBJECT_ADD) ? 1000: 10;
     setTimeout( function(){
       var subjects = SubjectStore.getAll();
       var profession = SubjectStore.getProfession();
@@ -110,7 +111,7 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
         dataType: 'json',
         success: ScheduleStore.update.bind(null, subjects)
       });
-    },300);
+    },timeout);
 
   }
 
