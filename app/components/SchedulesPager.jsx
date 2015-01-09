@@ -25,7 +25,7 @@ var Page =React.createClass({
     );
     return (
       <a className={className} onClick={this.change}>
-      {this.props.index + 1}
+      {this.props.key + 1}
       </a>
     )
   }
@@ -41,7 +41,7 @@ var PagerMenu = React.createClass({
       var selected = (i==this.props.selected);
       console.log(this.props.currentSchedulePage);
       var current  = (i==this.props.currentSchedulePage);
-      pages.push(<Page index={i} current={current} selected={selected} changePage={this.props.onPageChange}/>);
+      pages.push(<Page key={i} current={current} selected={selected} changePage={this.props.onPageChange}/>);
     }
     return (
       <div className="ui pagination menu pages">

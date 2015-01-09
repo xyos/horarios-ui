@@ -2,7 +2,8 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var cx = require('react/lib/cx');
 var SubjectStore = require('../stores/SubjectStore');
-var StringUtils = require('../utils/String')
+var StringUtils = require('../utils/String');
+
 var CalendarItem = React.createClass({
 
   /**

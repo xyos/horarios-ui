@@ -69,7 +69,7 @@ var Schedules = React.createClass({
             height += 1;
           } else if(char === "0" && newElement == false){
             newElement = true;
-            days["col"+(j+1)].push(<CalendarItem height={height*32} top={newElementTop} subject={subject} group={groups[i].code}/>);
+            days["col"+(j+1)].push(<CalendarItem key={"" + i + j + k} height={height*32} top={newElementTop} subject={subject} group={groups[i].code}/>);
             var height = 0;
           }
           top += 32;
