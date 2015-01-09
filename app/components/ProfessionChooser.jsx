@@ -61,7 +61,7 @@ var ProfessionChooser = React.createClass({
           id="searchBox1"
           span={true}
           reset={false}
-          value={this.state.profession.name}
+          value={this.state.profession}
         />
     );
   },
