@@ -34,6 +34,8 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
    * @param {function} callback
    */
   removeChangeListener: function(callback) {
+    var  side  = React.renderComponent(RightMenu({ message : "hello" }), document.getElementById('right-menu'));
+    var  schedules = React.renderComponent(Schedules(), document.getElementById('schedules'));
     this.removeListener(CHANGE_EVENT, callback);
   },
 
@@ -61,8 +63,14 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
   },
 
   update: function(subjects,data){
-    //TODO: set color
     _schedules = data;
+    console.log("Current schedule");
+    console.log(_currentSchedule );
+    console.log("Length");
+    console.log(data.length);
+    if(_currentSchedule > data.length){
+        _currentSchedule = 0;
+    } 
     for(var i in data){
         for(var j in _schedules[i].groups){
             var group = _schedules[i].groups[j];

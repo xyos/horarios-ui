@@ -57,11 +57,17 @@ var SchedulesPager = React.createClass({
   },
 
   componentDidMount : function() {
-    ScheduleStore.addChangeListener(this._onChange);
+    ScheduleStore.addChangeListener(this._onUpdate);
   },
 
   componentWillUnmount : function() {
-    ScheduleStore.removeChangeListener(this._onChange);
+    ScheduleStore.removeChangeListener(this._onUpdate);
+  },
+
+  _onUpdate : function() {
+    var state = getState();
+    state.selectedPage = Math.floor(state.currentSchedule/6);
+    this.setState(state);
   },
 
   _onChange : function() {
