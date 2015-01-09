@@ -242,8 +242,10 @@ var AutoComplete = React.createClass({
   },
 
   onQueryKeyDown: function(e) {
-
-    if (e.key === 'Enter') {
+    if (e.key === 'Escape'){
+      e.preventDefault();
+      this.onBlur();
+    } else if (e.key === 'Enter') {
       e.preventDefault();
       if (this.state.focusedValue) {
         this.onValueChange(this.state.focusedValue);
