@@ -92,7 +92,3 @@ React.renderComponent(app, document.getElementById('search'));
 Loader = require('../utils/Loader');
 Loader.fromHash(hash);
 require('../style/responsive.less');
-
-$('.save.nag')
-  .nag('show')
-;

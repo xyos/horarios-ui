@@ -11,6 +11,8 @@ var RightMenu = React.createClass({
       data: {session:json}
     }).done(function(data){
       History.pushState(data.session, "horario:" + data.url, "?l=" + data.url);
+      $('.save.nag').nag('clear');
+      $('.save.nag').nag('show');
     });
   },
   getText : function(){
