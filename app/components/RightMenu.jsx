@@ -25,7 +25,7 @@ var RightMenu = React.createClass({
     // This section should be hidden by default
     // and shown when there are subjects.
     return (
-    <div className="ui blue inverted menu main-menu">
+    <div className="ui secondary pointing menu main-menu">
       <a className="item" onClick={this.getLink}>
         <i className="save icon"></i> Guardar
       </a>

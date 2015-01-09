@@ -1,16 +1,31 @@
 var React = require('react');
 var AutoComplete = require('./Autocomplete');
 var $ = require('jquery');
+var cx = require('react/lib/cx');
 
 
 var SearchComponent = React.createClass({
+
+  getInitialState: function() {
+    return {
+      noShow: true
+    };
+  },
+
   propTypes: {
     onAdd: React.PropTypes.func,
     onDelete: React.PropTypes.func
   },
+  _onClick: function() {
+    this.setState({noShow: !this.state.noShow});
+  },
   render : function() {
+    var className = cx(
+      "ui menu subject-types",
+      this.state.noShow ? 'no-show' : ''
+    );
     return (
-      <div>
+      <div className="search-menu">
         <AutoComplete
           options={{url: "http://bogota.nomeroben.com/api/v1.0/subject/autocomplete/"}}
           search={this._searchRemote}
@@ -19,6 +34,26 @@ var SearchComponent = React.createClass({
           className="ui left fluid icon input"
           placeHolder="Buscar Materias"
         />
+        <a onClick={this._onClick}>Búsqueda Avanzada</a>
+        <div className={className}>
+            <div className="divider"></div>
+            <div className="item">
+              <div className="ui yellow empty circular label"></div>
+              Nivelación
+            </div>
+            <div className="item">
+              <div className="ui blue empty circular label"></div>
+              Fundamentación
+            </div>
+            <div className="item">
+              <div className="ui green empty circular label"></div>
+              Disciplinar
+            </div>
+            <div className="item">
+              <div className="ui orange empty circular label"></div>
+              Libre Elección
+            </div>
+          </div>
       </div>
     );
   },

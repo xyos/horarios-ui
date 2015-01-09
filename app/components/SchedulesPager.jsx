@@ -20,6 +20,7 @@ var Page =React.createClass({
   render: function () {
     var className = cx(
       this.props.selected ? 'active' : '',
+      this.props.current ?  'current' : '',
       'item'
     );
     return (
@@ -37,11 +38,13 @@ var PagerMenu = React.createClass({
       return null;
     }
     for(var i = 0; i < this.props.pages; i++){
-      var selected = (i==this.props.selected)
-      pages.push(<Page index={i} selected={selected} changePage={this.props.onPageChange}/>);
+      var selected = (i==this.props.selected);
+      console.log(this.props.currentSchedulePage);
+      var current  = (i==this.props.currentSchedulePage);
+      pages.push(<Page index={i} current={current} selected={selected} changePage={this.props.onPageChange}/>);
     }
     return (
-      <div className="ui pagination menu pages purple inverted">
+      <div className="ui pagination menu pages">
         {pages}
       </div>
     )
@@ -76,7 +79,8 @@ var SchedulesPager = React.createClass({
       return null;
     }
     var pages = Math.ceil(schedulesNumber / 6);
-    var currentPage = this.state.currentSchedule/6;
+    var currentSchedulePage = Math.floor(this.state.currentSchedule/6);
+
     for(var i = (this.state.selectedPage*6);
         i < this.props.schedules.length &&
         i < ((this.state.selectedPage + 1) *6) ;i++){
@@ -86,8 +90,8 @@ var SchedulesPager = React.createClass({
 
     return (
       <div className="image-pager">
-        <div className="ui segment inverted purple secondary schedules"> {schedules} </div>
-        <PagerMenu pages={pages} selected={this.state.selectedPage} onPageChange={this.changePage}/>
+        <div className="ui segment schedules"> {schedules} </div>
+        <PagerMenu pages={pages} currentSchedulePage={currentSchedulePage} selected={this.state.selectedPage} onPageChange={this.changePage}/>
       </div>
     );
   },
