@@ -46,7 +46,7 @@ var ProfessionChooser = React.createClass({
    * @return {object}
    */
   render: function() {
-    var professions = [];
+    var professions = [{id:"",title:"NINGUNA"}];
     for(var i=0; i< this.state.professions.length; i++){
       var name = StringUtils.latinize(this.state.professions[i].name);
       var code = this.state.professions[i].code;
@@ -66,7 +66,7 @@ var ProfessionChooser = React.createClass({
     );
   },
   _selectProfession: function(profession){
-    profession = profession.id ? profession : {code: '', name: ''};
+    profession = profession.id ? (profession.id == "") ? {code: '', name: ''} : profession : {code: '', name: ''};
     SubjectActions.setProfession({code: profession.id, name: profession.title});
   }
 });

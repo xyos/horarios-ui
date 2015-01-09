@@ -53,7 +53,9 @@ var AutoComplete = React.createClass({
       outline: 'none'
     };
     if(this.props.span){
-      var text = (this.props.value.name == "") ? this.props.placeHolder : this.props.value.name;
+
+      var text = (!this.props.value.code) ? this.props.placeHolder : (this.props.value.code == "") ? this.props.placeHolder : this.props.value.name;
+      console.log(this.props.value);
       return (
         <div
           tabIndex="1"
