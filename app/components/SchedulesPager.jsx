@@ -3,6 +3,7 @@ var ReactPropTypes = React.PropTypes;
 var ScheduleThumbnail = require('./ScheduleThumbnail');
 var ScheduleStore = require('../stores/ScheduleStore');
 var cx = require('react/lib/cx');
+
 var _selectedPage = 0;
 
 var getState = function() {
@@ -15,7 +16,7 @@ var getState = function() {
 
 var Page =React.createClass({
   change: function(){
-    this.props.changePage(this.props.index);
+    this.props.changePage(this.props.key);
   },
   render: function () {
     var className = cx(
