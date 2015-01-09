@@ -11,6 +11,8 @@ var RightMenu = React.createClass({
       data: {session:json}
     }).done(function(data){
       History.pushState(data.session, "horario:" + data.url, "?l=" + data.url);
+      $('.save.nag').nag('clear');
+      $('.save.nag').nag('show');
     });
   },
   getText : function(){
@@ -25,10 +27,10 @@ var RightMenu = React.createClass({
     return (
     <div className="ui secondary pointing menu main-menu">
       <a className="item" onClick={this.getLink}>
-        <i className="save icon"></i> Guardar
+        <i className="linkify icon"></i> Compartir
       </a>
-      <a className="item" onClick={this.getText}>
-        <i className="file text icon"></i> Texto
+      <a className="item copy-paste" onClick={this.getText}>
+        <i className="file text icon"></i> Exportar
       </a>
       <div className="right menu">
         <a className="item" target="_blank" href="https://www.facebook.com/HorariosUNAL">
