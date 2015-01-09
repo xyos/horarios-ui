@@ -10,13 +10,11 @@ var RightMenu = React.createClass({
       url: "http://bogota.nomeroben.com/api/v1.0/sessions/",
       data: {session:json}
     }).done(function(data){
-      console.log(data);
       History.pushState(data.session, "horario:" + data.url, "?l=" + data.url);
     });
   },
   getText : function(){
     var json = Saver.getText();
-    console.log(json);
   },
   /**
    * @return {object}

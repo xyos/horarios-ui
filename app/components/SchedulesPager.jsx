@@ -39,7 +39,6 @@ var PagerMenu = React.createClass({
     }
     for(var i = 0; i < this.props.pages; i++){
       var selected = (i==this.props.selected);
-      console.log(this.props.currentSchedulePage);
       var current  = (i==this.props.currentSchedulePage);
       pages.push(<Page key={i} current={current} selected={selected} changePage={this.props.onPageChange}/>);
     }
@@ -99,7 +98,6 @@ var SchedulesPager = React.createClass({
   changePage: function (page) {
     _selectedPage = page;
     this._onChange();
-    console.log(this.state);
   }
 
 });

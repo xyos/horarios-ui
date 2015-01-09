@@ -3,7 +3,6 @@ var SubjectActions = require('../actions/SubjectActions');
 var ScheduleActions = require('actions/ScheduleActions');
 var Loader = {
   fromHash : function (hash) {
-    console.log(hash);
     var re = /(^\/\?l=)([a-zA-Z0-9]*)&?.*$/;
     var m;
     m = re.exec(hash);
