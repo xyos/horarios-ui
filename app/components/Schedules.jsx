@@ -40,10 +40,7 @@ var Schedules = React.createClass({
     this.setState(getState());
   },
 
-  /**
-   * @return {object}
-   */
-  render: function() {
+  componentDidUpdate :function(){
     var current = this.state.allSchedules[this.state.currentSchedule];
     var days = {};
     var groups = current === undefined ? [{schedule : [0,0,0,0,0,0,0],_schedule:__defaultEmptySchedule}] : current.groups;
@@ -83,6 +80,12 @@ var Schedules = React.createClass({
       }
     }
     React.renderComponent(SchedulesPager({schedules:this.state.allSchedules,current:this.state.currentSchedule}), document.getElementById("schedules-pager"));
+  },
+  /**
+   * @return {object}
+   */
+  render: function() {
+
     return null;
   }
 });
