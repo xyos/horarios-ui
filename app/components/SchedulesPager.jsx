@@ -17,6 +17,7 @@ var getState = function() {
 var Page =React.createClass({
   change: function(){
     this.props.changePage(this.props.key);
+
   },
   render: function () {
     var className = cx(

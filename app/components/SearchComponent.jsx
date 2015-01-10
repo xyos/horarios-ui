@@ -134,7 +134,6 @@ var SearchComponent = React.createClass({
           subject_type.push(this.state.filters[i].code);
         }
       }
-      console.log(subject_type);
       $.ajax({
         url: options.url + searchTerm + '&profession=' + this.props.profession.code + '&subject_type=' + JSON.stringify(subject_type),
         dataType: 'json',

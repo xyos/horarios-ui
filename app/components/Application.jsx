@@ -81,7 +81,9 @@ var Application = React.createClass({
 
 
 var app = Application();
-
+$('.ui.modal')
+  .modal()
+;
 React.renderComponent(app, document.getElementById('search'));
 (function(window,undefined){
   History.Adapter.bind(window,'statechange',function(){

@@ -5,6 +5,7 @@ var ScheduleStore = require('../stores/ScheduleStore');
 var SubjectStore = require('../stores/SubjectStore');
 var Calendar = require('./Calendar');
 var SchedulesPager = require('./SchedulesPager');
+
 var CalendarItem = require('./CalendarItem');
 
 var getState = function() {
@@ -80,6 +81,7 @@ var Schedules = React.createClass({
       }
     }
     React.renderComponent(SchedulesPager({schedules:this.state.allSchedules,current:this.state.currentSchedule}), document.getElementById("schedules-pager"));
+
   },
   /**
    * @return {object}

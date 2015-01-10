@@ -182,6 +182,9 @@ input[type="checkbox"].toggle {
   &.@{name} {
     background: @@name !important;
     color: @@complement !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
   }
   .f((@i - 1));
@@ -282,4 +285,12 @@ div.react-autocomplete-Autocomplete--resultsShown > input.search {
 
 .subject .remove, .subject a{
   cursor: pointer;
+}
+
+.ui.modal {
+  max-height: 300px;
+}
+
+textarea.modaltext {
+  height: 230px !important;
 }

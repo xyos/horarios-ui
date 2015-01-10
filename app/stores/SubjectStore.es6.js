@@ -70,7 +70,9 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   getAvailableColors: function(){
     return _availableColors;
   },
-
+  getName: function(id){
+    return _subjects[id].name;
+  },
   getTeacher: function(subject,group) {
     var groups = _subjects[subject].groups;
     for(var i = 0; i< groups.length; i++){

@@ -2,6 +2,7 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var Saver = require('../utils/Saver');
 var history = require('html5-history');
+var ExportText = require('./ExportText');
 var RightMenu = React.createClass({
   getLink : function(){
     var json = Saver.getJSON();
@@ -19,11 +20,13 @@ var RightMenu = React.createClass({
     });
   },
   getText : function(){
-    var json = Saver.getText();
+    $('.modal')
+      .modal('show')
+    ;
   },
-  /**
-   * @return {object}
-   */
+  componentDidMount: function(){
+    React.renderComponent(ExportText({current:this.props.key}), document.getElementById("export-text"));
+  },
   render: function() {
     // This section should be hidden by default
     // and shown when there are subjects.

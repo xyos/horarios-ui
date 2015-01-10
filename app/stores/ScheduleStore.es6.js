@@ -64,10 +64,6 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
 
   update: function(subjects,data){
     _schedules = data;
-    console.log("Current schedule");
-    console.log(_currentSchedule );
-    console.log("Length");
-    console.log(data.length);
     if(_currentSchedule > data.length){
         _currentSchedule = 0;
     } 
