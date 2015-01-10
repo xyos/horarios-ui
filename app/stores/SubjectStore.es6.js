@@ -22,6 +22,9 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       url: "http://bogota.nomeroben.com/api/v1.0/professions/",
       dataType: 'json',
       success: function(data){
+        data.sort(function(a, b) {
+          return a.name.localeCompare(b.name, 'es');
+        });
         _professions = data;
         SubjectStore.emit(CHANGE_EVENT);
       }
