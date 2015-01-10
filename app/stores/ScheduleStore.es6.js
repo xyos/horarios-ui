@@ -75,8 +75,9 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
   getBusyArray: function(){
     return _busyArray;
   },
-  setBusyArrayItem: function(index,data){
-    _busyArray[index] = data;
+  setBusyArrayItem: function(day,hour,value){
+    var val = (value) ? '1' : '0';
+    _busyArray[day] = StringUtils.replaceAt(_busyArray[day],hour,val);
     ScheduleStore.emitChange();
   },
   setRaw: function(raw){
@@ -119,7 +120,7 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
       ScheduleStore.setBusy(action.busy);
       break;
     case ScheduleConstants.SCHEDULE_SET_BUSY_ITEM:
-      ScheduleStore.setBusyArrayItem(action.busy.index,action.busy.value);
+      ScheduleStore.setBusyArrayItem(action.busy.day,action.busy.hour,action.busy.value);
       break;
     default :
       break;

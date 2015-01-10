@@ -21,7 +21,7 @@ var ScheduleActions = {
       busy : busy
     });
   },
-  setBusyItem : busyItem => {
+  setBusyHour : busyItem => {
     AppDispatcher.handleViewAction({
       actionType : ScheduleConstants.SCHEDULE_SET_BUSY_ITEM,
       busy : busyItem

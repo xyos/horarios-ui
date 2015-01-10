@@ -1,6 +1,7 @@
 var React = require('react');
 var ScheduleStore = require('../stores/ScheduleStore');
 var SubjectStore = require('../stores/SubjectStore');
+var ScheduleActions = require('../actions/ScheduleActions');
 var Calendar = require('./Calendar');
 var SchedulesPager = require('./SchedulesPager');
 
@@ -36,7 +37,9 @@ var Schedules = React.createClass({
   componentWillUnmount : function() {
     ScheduleStore.removeChangeListener(this._onChange);
   },
-
+  setBusyHour(day,hour,value){
+    ScheduleActions.setBusyHour({day:day,hour:hour,value:value});
+  },
   _onChange : function() {
     this.setState(getState());
   },
@@ -49,22 +52,22 @@ var Schedules = React.createClass({
     if(isBusy){
       groups = [{_schedule:this.state.busyArray}];
     }
-    for(var i=0, len = groups.length; i<len; i++){
-      var groupSchedule = groups[i]._schedule;
-      var subject = SubjectStore.get(groups[i].subject);
-      for(var j=0, len1 = groupSchedule.length; j<len1; j++){
-        if(days["col"+(j+1)] === undefined){
-          days["col"+(j+1)] = [];
+    for(var group=0, len = groups.length; group<len; group++){
+      var groupSchedule = groups[group]._schedule;
+      var subject = SubjectStore.get(groups[group].subject);
+      for(var day=0, len1 = groupSchedule.length; day<len1; day++){
+        if(days["col"+(day+1)] === undefined){
+          days["col"+(day+1)] = [];
         }
-        var daySchedule = groupSchedule[j];
+        var daySchedule = groupSchedule[day];
         var top = 16;
         var newElement = true;
         var height = 0;
         var newElementTop = 0;
-        for(var k=0, len2 = daySchedule.length; k<len2; k++){
-          var char = daySchedule[k];
+        for(var hour=0, len2 = daySchedule.length; hour<len2; hour++){
+          var char = daySchedule[hour];
           if(isBusy) {
-            days["col"+(j+1)].push(<CalendarItem key={"" + i + j + k} height={32} top={top} busy={char == "1"}/>);
+            days["col"+(day+1)].push(<CalendarItem clickBusyEvent={this.setBusyHour} key={"" + group + day + hour} height={32} top={top} busy={char == "1"} day={day} hour={hour} isBusy={isBusy}/> );
           } else if(char == "1" && newElement == true){
             newElement = false;
             newElementTop = top;
@@ -73,7 +76,7 @@ var Schedules = React.createClass({
             height += 1;
           } else if(char === "0" && newElement == false){
             newElement = true;
-            days["col"+(j+1)].push(<CalendarItem key={"" + i + j + k} height={height*32} top={newElementTop} subject={subject} group={groups[i].code}/>);
+            days["col"+(day+1)].push(<CalendarItem key={"" + group + day + hour} height={height*32} top={newElementTop} subject={subject} group={groups[group].code}/>);
             var height = 0;
           }
           top += 32;

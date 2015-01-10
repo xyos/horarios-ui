@@ -6,9 +6,11 @@ var StringUtils = require('../utils/String');
 
 var CalendarItem = React.createClass({
 
-  /**
-   * @return {object}
-   */
+  handleClick : function(){
+    if(this.props.clickBusyEvent && this.props.isBusy){
+      this.props.clickBusyEvent(this.props.day,this.props.hour,!this.props.busy)
+    }
+  },
   render: function() {
     var divStyle = {
       height: this.props.height,
@@ -27,7 +29,7 @@ var CalendarItem = React.createClass({
     );
     return (
       <div>
-        <div className={textClass} style={divStyle}>{text}</div>
+        <div onClick={this.handleClick} className={textClass} style={divStyle}>{text}</div>
       </div>
     );
   }

@@ -16,6 +16,9 @@ var StringUtils = {
     return text.toLowerCase()
           .replace(/(?!\b\w)([a-z]*)((\b )|\.|$)/g, '')
           .toUpperCase().substring(0,8);
+  },
+  replaceAt: function(str, index, character) {
+    return str.substr(0, index) + character + str.substr(index + character.length);
   }
 };
 module.exports = StringUtils;
