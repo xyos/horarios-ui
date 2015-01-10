@@ -11,6 +11,15 @@ var CHANGE_EVENT = 'change';
 
 var _schedules = [];
 var _currentSchedule = 0;
+var _isBusy = false;
+var _busyArray = [
+    "01111111110111",
+    "10111111101011",
+    "11011111011101",
+    "11101110111110",
+    "11110101111111",
+    "11111011111111"
+];
 
 
 var ScheduleStore = assign({}, EventEmitter.prototype, {
@@ -56,6 +65,20 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
   getCurrent() {
     return _currentSchedule;
   },
+  getBusy: function(){
+    return _isBusy;
+  },
+  setBusy: function(busy){
+    _isBusy = busy;
+    ScheduleStore.emitChange();
+  },
+  getBusyArray: function(){
+    return _busyArray;
+  },
+  setBusyArrayItem: function(index,data){
+    _busyArray[index] = data;
+    ScheduleStore.emitChange();
+  },
   setRaw: function(raw){
     _schedules = raw.schedules;
     _currentSchedule = raw.currentSchedule;
@@ -92,6 +115,12 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     case ScheduleConstants.SCHEDULE_SET_CURRENT:
       ScheduleStore.setCurrent(action.id);
       break;
+    case ScheduleConstants.SCHEDULE_SET_BUSY:
+      ScheduleStore.setBusy(action.busy);
+      break;
+    case ScheduleConstants.SCHEDULE_SET_BUSY_ITEM:
+      ScheduleStore.setBusyArrayItem(action.busy.index,action.busy.value);
+      break;
     default :
       break;
   }
@@ -103,7 +132,8 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     action.actionType === SubjectConstants.SUBJECT_SELECT ||
     action.actionType === SubjectConstants.SUBJECT_SELECT_TEACHER ||
     action.actionType === SubjectConstants.SUBJECT_SELECT_GROUPS ||
-    action.actionType === SubjectConstants.PROFESSION_SET
+    action.actionType === SubjectConstants.PROFESSION_SET ||
+    (action.actionType === ScheduleConstants.SCHEDULE_SET_BUSY  && _isBusy == false)
   ){
     var timeout = (action.actionType === SubjectConstants.SUBJECT_ADD) ? 1000: 10;
     setTimeout( function(){

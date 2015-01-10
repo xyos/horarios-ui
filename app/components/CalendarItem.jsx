@@ -14,15 +14,20 @@ var CalendarItem = React.createClass({
       height: this.props.height,
       top: this.props.top
     };
-    var teacher = SubjectStore.getTeacher(this.props.subject.id, this.props.group);
+
+    var text = this.props.subject ?
+      SubjectStore.getTeacher(this.props.subject.id, this.props.group) + " (" + this.props.group + ")":
+      this.props.busy ? "ocupado" : 'libre';
+    var color = this.props.subject ?
+      this.props.subject.color.css:
+      this.props.busy ? "red" : 'green';
     var textClass = cx(
       "event",
-      this.props.subject.color.css
+      color
     );
-    var itemClass = cx("event",this.props.subject.color.css,"engraved-text");
     return (
       <div>
-        <div className={textClass} style={divStyle}>{teacher + " (" + this.props.group + ")"}</div>
+        <div className={textClass} style={divStyle}>{text}</div>
       </div>
     );
   }

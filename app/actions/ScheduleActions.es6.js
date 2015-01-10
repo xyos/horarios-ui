@@ -14,8 +14,19 @@ var ScheduleActions = {
       actionType : ScheduleConstants.SCHEDULE_LOAD,
       schedules: schedules
     });
+  },
+  setBusy : busy => {
+    AppDispatcher.handleViewAction({
+      actionType : ScheduleConstants.SCHEDULE_SET_BUSY,
+      busy : busy
+    });
+  },
+  setBusyItem : busyItem => {
+    AppDispatcher.handleViewAction({
+      actionType : ScheduleConstants.SCHEDULE_SET_BUSY_ITEM,
+      busy : busyItem
+    });
   }
-
 };
 
 module.exports = ScheduleActions;

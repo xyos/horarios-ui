@@ -1,6 +1,4 @@
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
-var ScheduleUtils = require('../utils/Schedule');
 var ScheduleStore = require('../stores/ScheduleStore');
 var SubjectStore = require('../stores/SubjectStore');
 var Calendar = require('./Calendar');
@@ -11,18 +9,20 @@ var CalendarItem = require('./CalendarItem');
 var getState = function() {
   return {
     allSchedules  : ScheduleStore.getAll(),
-    currentSchedule : ScheduleStore.getCurrent()
+    currentSchedule : ScheduleStore.getCurrent(),
+    isBusySelected : ScheduleStore.getBusy(),
+    busyArray : ScheduleStore.getBusyArray()
   };
 };
 
 __defaultEmptySchedule = [
-    "00000000000000000",
-    "00000000000000000",
-    "00000000000000000",
-    "00000000000000000",
-    "00000000000000000",
-    "00000000000000000"
-]
+  "00000000000000000",
+  "00000000000000000",
+  "00000000000000000",
+  "00000000000000000",
+  "00000000000000000",
+  "00000000000000000"
+];
 
 var Schedules = React.createClass({
   getInitialState : function() {
@@ -44,7 +44,11 @@ var Schedules = React.createClass({
   componentDidUpdate :function(){
     var current = this.state.allSchedules[this.state.currentSchedule];
     var days = {};
-    var groups = current === undefined ? [{schedule : [0,0,0,0,0,0,0],_schedule:__defaultEmptySchedule}] : current.groups;
+    var groups = current === undefined ? [{_schedule:__defaultEmptySchedule}] : current.groups;
+    var isBusy = this.state.isBusySelected;
+    if(isBusy){
+      groups = [{_schedule:this.state.busyArray}];
+    }
     for(var i=0, len = groups.length; i<len; i++){
       var groupSchedule = groups[i]._schedule;
       var subject = SubjectStore.get(groups[i].subject);
@@ -59,7 +63,9 @@ var Schedules = React.createClass({
         var newElementTop = 0;
         for(var k=0, len2 = daySchedule.length; k<len2; k++){
           var char = daySchedule[k];
-          if(char == "1" && newElement == true){
+          if(isBusy) {
+            days["col"+(j+1)].push(<CalendarItem key={"" + i + j + k} height={32} top={top} busy={char == "1"}/>);
+          } else if(char == "1" && newElement == true){
             newElement = false;
             newElementTop = top;
             height = 1;
@@ -83,9 +89,6 @@ var Schedules = React.createClass({
     React.renderComponent(SchedulesPager({schedules:this.state.allSchedules,current:this.state.currentSchedule}), document.getElementById("schedules-pager"));
 
   },
-  /**
-   * @return {object}
-   */
   render: function() {
 
     return null;

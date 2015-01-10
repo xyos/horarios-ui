@@ -1,9 +1,12 @@
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
 var Saver = require('../utils/Saver');
-var history = require('html5-history');
 var ExportText = require('./ExportText');
+var cx = require('react/lib/cx');
+var ScheduleActions = require('../actions/ScheduleActions');
 var RightMenu = React.createClass({
+  getInitialState : function(){
+    return { isBusy : false }
+  },
   getLink : function(){
     var json = Saver.getJSON();
     $.ajax({
@@ -24,12 +27,22 @@ var RightMenu = React.createClass({
       .modal('show')
     ;
   },
+  toggleBusy :function(){
+    var busy = !this.state.isBusy;
+    ScheduleActions.setBusy(busy);
+    this.setState({isBusy : busy});
+  },
   componentDidMount: function(){
     React.renderComponent(ExportText({current:this.props.key}), document.getElementById("export-text"));
   },
   render: function() {
     // This section should be hidden by default
     // and shown when there are subjects.
+
+    var busyClassName = cx(
+      this.state.isBusy ? 'active red' : '',
+      'item busy'
+    );
     return (
     <div className="ui secondary pointing menu main-menu">
       <a className="item" onClick={this.getLink}>
@@ -37,6 +50,9 @@ var RightMenu = React.createClass({
       </a>
       <a className="item copy-paste" onClick={this.getText}>
         <i className="file text icon"></i> Exportar
+      </a>
+      <a className={busyClassName} onClick={this.toggleBusy}>
+        <i className="minus circle icon"></i> Horas ocupadas
       </a>
       <div className="right menu">
         <a className="item" target="_blank" href="https://www.facebook.com/HorariosUNAL">
