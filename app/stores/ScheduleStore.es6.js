@@ -13,12 +13,12 @@ var _schedules = [];
 var _currentSchedule = 0;
 var _isBusy = false;
 var _busyArray = [
-    "01000000000001",
-    "10000000001001",
-    "11000000001001",
-    "11000000001000",
-    "11000000001001",
-    "11000000001001"
+    "00000000000000",
+    "00000000000000",
+    "00000000000000",
+    "00000000000000",
+    "00000000000000",
+    "00000000000000"
 ];
 
 
@@ -139,8 +139,7 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     var timeout = (action.actionType === SubjectConstants.SUBJECT_ADD) ? 1000: 10;
     setTimeout( function(){
       var subjects = SubjectStore.getAll();
-      var profession = SubjectStore.getProfession();
-      var url = ScheduleUtils.generateScheduleURL(subjects,profession.code);
+      var url = ScheduleUtils.generateScheduleURL(subjects,_busyArray);
       $.ajax({
         url: "http://bogota.nomeroben.com/api/v1.0/schedule/" + url,
         dataType: 'json',

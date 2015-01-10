@@ -3,7 +3,7 @@ var decimalToSchedString = function (value) {
   return ( parseInt(value, 10) + Math.pow(2, 25) ).toString(2).substring(2).split('').reverse().join('');
 };
 module.exports = {
-  generateScheduleURL : function(subjects, profession){
+  generateScheduleURL : function(subjects, busyArray){
     var url = "";
 
     for(var key in subjects){
@@ -19,9 +19,14 @@ module.exports = {
         groupUrl = "";
       }
       url += groupUrl;
+     }
 
+    var busyUrl = "";
+    for(var key in busyArray){
+      busyUrl += "," + this.dayStringToInt(busyArray[key]);
     }
-    return "subjects=" + url.substring(1) + "&busy=0,0,0,0,0,0,0";
+    busyUrl += ",0";
+    return "subjects=" + url.substring(1) + "&busy=" + busyUrl.substring(1);
     // TODO: uncomment this on profession change
     // return "subjects=" + url.substring(1) + "&busy=0,0,0,0,0,0,0" + "&profession=" + profession;
   },
@@ -36,6 +41,8 @@ module.exports = {
     } else {
       return "No hay horario";
     }
-
+  },
+  dayStringToInt: function(str){
+    return parseInt(("0000000" + str).split("").reverse().join(""),2);
   }
 };
