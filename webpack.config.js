@@ -35,7 +35,7 @@ module.exports = {
     ]
   },
   resolve : {
-    extensions: ['', '.js', '.es6.js', '.jsx', '.less'],
+    extensions: ['', '.js', '.es6.js', '.jsx', '.less', '.css'],
     alias : {
       actions : __dirname + '/app/actions',
       constants : __dirname + '/app/constants',
@@ -48,7 +48,9 @@ module.exports = {
       jQuery: "jquery",
       "window.jQuery": "jquery"
     }),
-    new ExtractTextPlugin("[name].css")
+    new ExtractTextPlugin("main.css", {
+      allChunks: true
+    })
   ]
 
 

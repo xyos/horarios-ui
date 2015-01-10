@@ -1,8 +1,8 @@
 @media (min-width:0px) and (max-width:767px) {
-  .five.wide.column{
+  .five.wide.column.subjects{
     display: block !important; width: 100% !important;
   }
-  .eleven.wide.column{
+  .eleven.wide.column.schedules{
     display: block !important; width: 100% !important;
   }
 

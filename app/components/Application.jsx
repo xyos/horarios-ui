@@ -1,6 +1,5 @@
 var React = require('react');
 require('../style/app.less');
-require('semantic-ui/dist/semantic.css');
 require('semantic-ui/dist/semantic.js');
 
 var SubjectStore = require('stores/SubjectStore');
@@ -93,4 +92,3 @@ React.renderComponent(app, document.getElementById('search'));
 })(window);
 Loader = require('../utils/Loader');
 Loader.fromHash(hash);
-require('../style/responsive.less');
