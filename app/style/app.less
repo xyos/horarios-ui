@@ -182,15 +182,17 @@ input[type="checkbox"].toggle {
   &.@{name} {
     background: @@name !important;
     color: @@complement !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
   }
   .f((@i - 1));
 } .f;
 }
 
+.event{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
 .header.item > .menu {
   background: #fff;
 }
@@ -293,4 +295,20 @@ div.react-autocomplete-Autocomplete--resultsShown > input.search {
 
 textarea.modaltext {
   height: 230px !important;
+}
+
+.event.busy{
+  background-image: repeating-linear-gradient(-45deg, @red, @red 25%, transparent 25%, transparent 50%, @red 50%);
+  background-size: 6px 6px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
+}
+
+.event.free{
+  background-image: repeating-linear-gradient(-45deg, @green, @green 25%, transparent 25%, transparent 50%, @green 50%);
+  background-size: 6px 6px;
+  font-weight: bold;
+  font-size: 14px;
+  color: #333;
 }

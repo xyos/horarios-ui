@@ -51,6 +51,8 @@ var Schedules = React.createClass({
     var isBusy = this.state.isBusySelected;
     if(isBusy){
       groups = [{_schedule:this.state.busyArray}];
+    } else {
+      groups.push({_schedule:this.state.busyArray});
     }
     for(var group=0, len = groups.length; group<len; group++){
       var groupSchedule = groups[group]._schedule;
@@ -68,21 +70,27 @@ var Schedules = React.createClass({
           var char = daySchedule[hour];
           if(isBusy) {
             days["col"+(day+1)].push(<CalendarItem clickBusyEvent={this.setBusyHour} key={"" + group + day + hour} height={32} top={top} busy={char == "1"} day={day} hour={hour} isBusy={isBusy}/> );
-          } else if(char == "1" && newElement == true){
-            newElement = false;
-            newElementTop = top;
-            height = 1;
-          } else if(char == "1" && newElement == false){
-            height += 1;
+          } else if(char == "1"){
+            if(newElement==true) {
+              newElement = false;
+              newElementTop = top;
+              height = 1;
+            } else {
+              height += 1;
+            }
+            if (hour == len2 - 1) {
+              days["col" + (day + 1)].push(<CalendarItem key={"" + group + day + hour} height={height * 32} top={newElementTop} subject={subject} group={groups[group].code }  busy={true}/>);
+            }
           } else if(char === "0" && newElement == false){
             newElement = true;
-            days["col"+(day+1)].push(<CalendarItem key={"" + group + day + hour} height={height*32} top={newElementTop} subject={subject} group={groups[group].code}/>);
+            days["col"+(day+1)].push(<CalendarItem key={"" + group + day + hour} height={height*32} top={newElementTop} subject={subject} group={groups[group].code }  busy={true}/>);
             var height = 0;
           }
           top += 32;
         }
       }
     }
+    groups.pop();
     for(var key in days){
       domObject = document.getElementById(key);
       if(domObject !== null){

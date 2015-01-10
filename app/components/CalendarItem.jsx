@@ -19,10 +19,13 @@ var CalendarItem = React.createClass({
 
     var text = this.props.subject ?
       SubjectStore.getTeacher(this.props.subject.id, this.props.group) + " (" + this.props.group + ")":
-      this.props.busy ? "ocupado" : 'libre';
+      this.props.busy ? '' : '';
+    if(this.props.isBusy){
+      text = (this.props.hour+7) + " - " + (this.props.hour+8);
+    }
     var color = this.props.subject ?
       this.props.subject.color.css:
-      this.props.busy ? "red" : 'green';
+      this.props.busy ? "busy" : 'free';
     var textClass = cx(
       "event",
       color
