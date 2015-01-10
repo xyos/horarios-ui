@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
 
 
 var Calendar = React.createClass({

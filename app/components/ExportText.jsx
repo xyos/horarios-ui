@@ -25,7 +25,7 @@ var Schedules = React.createClass({
     return (
       <div className="field">
         <label>Horario actual</label>
-        <textarea className="modaltext" value={text}></textarea>
+        <textarea className="modaltext" value={text} readOnly={true}></textarea>
       </div>
     );
   },
