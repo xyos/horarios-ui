@@ -19,7 +19,11 @@ var GroupItem = React.createClass({
       "item",
       group.selected ? 'selected': ''
     );
-
+    var ratio = group.available / group.totalShare;
+    var classBadgeName = cx(
+      "ui circular label",
+      (ratio > 0.5) ? 'green': (ratio > 0) ? 'yellow' : 'red'
+    );
     return (
       <div className={className}>
         <input
@@ -29,6 +33,9 @@ var GroupItem = React.createClass({
           onChange={this._onSelection}
         />
             {"grupo " + group.code}
+        <a className={classBadgeName}>
+        {group.available + "/" + group.totalShare}
+        </a>
       </div>
     );
   },
