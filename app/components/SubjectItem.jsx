@@ -16,7 +16,7 @@ var GroupItem = React.createClass({
   render: function() {
     var group = this.props.group;
     var className = cx(
-      "item",
+      "item group",
       group.selected ? 'selected': ''
     );
     var ratio = group.available / group.totalShare;
