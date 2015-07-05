@@ -16,7 +16,7 @@ var getState = function() {
   };
 };
 
-__defaultEmptySchedule = [
+var __defaultEmptySchedule = [
   "00000000000000000",
   "00000000000000000",
   "00000000000000000",
@@ -92,12 +92,12 @@ var Schedules = React.createClass({
     }
     groups.pop();
     for(var key in days){
-      domObject = document.getElementById(key);
+      var domObject = document.getElementById(key);
       if(domObject !== null){
-        React.renderComponent(Calendar({key:key, day : days[key]}), domObject);
+        React.render(<Calendar key={key} day={days[key]} />, domObject);
       }
     }
-    React.renderComponent(SchedulesPager({schedules:this.state.allSchedules,current:this.state.currentSchedule}), document.getElementById("schedules-pager"));
+    React.render(<SchedulesPager schedules={this.state.allSchedules} current={this.state.currentSchedule} />, document.getElementById("schedules-pager"));
 
   },
   render: function() {

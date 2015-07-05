@@ -11,14 +11,13 @@ var RightMenu = React.createClass({
     var json = Saver.getJSON();
     $.ajax({
       type: "POST",
-      url: "http://bogota.nomeroben.com/api/v1.0/sessions/",
+      url: "/api/v1.0/sessions/",
       data: {session:json}
     }).done(function(data){
       History.pushState(data.session, "horario:" + data.url, "?l=" + data.url);
-      $('.save.nag').nag('clear');
-      $('.save.nag').nag('show');
+      $('.cookie.nag').nag({storageMethod : 'localstorage'}).nag('show');
       setTimeout(function(){
-        $('.save.nag').nag('hide');
+        $('.cookie.nag').nag({storageMethod : 'localstorage'}).nag('hide');
       },5000);
     });
   },
@@ -33,7 +32,7 @@ var RightMenu = React.createClass({
     this.setState({isBusy : busy});
   },
   componentDidMount: function(){
-    React.renderComponent(ExportText({current:this.props.key}), document.getElementById("export-text"));
+    React.render(<ExportText current={this.props.key} />, document.getElementById("export-text"));
   },
   render: function() {
     // This section should be hidden by default

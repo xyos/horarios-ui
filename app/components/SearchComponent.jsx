@@ -1,5 +1,5 @@
 var React = require('react');
-var AutoComplete = require('./Autocomplete');
+var AutoComplete  = require('./AutoCompleteSubject');
 var $ = require('jquery');
 var cx = require('react/lib/cx');
 
@@ -22,7 +22,7 @@ var FilterItem = React.createClass({
           checked={this.props.filter.selected}
           onChange={this.select}
         />
-        <div className={className}></div>
+        <a className={className}></a>
       {this.props.filter.name}
       </div>
     );
@@ -102,7 +102,7 @@ var SearchComponent = React.createClass({
   },
   render : function() {
     var className = cx(
-      "ui menu subject-types",
+      "ui subject-types",
       this.state.noShow ? 'no-show' : ''
     );
 
@@ -110,11 +110,10 @@ var SearchComponent = React.createClass({
     return (
       <div className="search-menu">
         <AutoComplete
-          options={{url: "http://bogota.nomeroben.com/api/v1.0/subject/autocomplete2/search_term="}}
+          options={{url: "/api/v1.0/subjects/autocomplete/search_term="}}
           search={this._searchRemote}
           onChange={this._selectSubject}
           reset={false}
-          className="ui left fluid icon input"
           placeHolder="Buscar Materias"
         />
         <a onClick={this._onClick}>Búsqueda Avanzada</a>
@@ -157,7 +156,7 @@ var SearchComponent = React.createClass({
     return results.slice(0, 100)
   },
   _selectSubject: function(subject){
-    this._onSubjectAdd(subject);
+    if(subject) this._onSubjectAdd(subject);
   },
   _onSubjectAdd: function(subject){
     if (this.props.onAdd) {

@@ -1,6 +1,6 @@
 var Dispatcher = require('flux/lib/Dispatcher');
 var assign = require('object-assign');
-var copyProperties = require('react/lib/copyProperties');
+var copyProperties = require('react/lib/Object.assign');
 
 var AppDispatcher = copyProperties(new Dispatcher(), {
   handleServerAction: function(action) {

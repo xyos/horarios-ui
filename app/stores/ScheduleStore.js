@@ -8,11 +8,13 @@ var $ = require('jquery');
 var ScheduleUtils = require('../utils/Schedule');
 var SubjectStore = require('./SubjectStore');
 var CHANGE_EVENT = 'change';
+var React = require('react');
 
 var _schedules = [];
 var _currentSchedule = 0;
 var _isBusy = false;
 var _busyArray = [
+    "00000000000000",
     "00000000000000",
     "00000000000000",
     "00000000000000",
@@ -43,8 +45,8 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
    * @param {function} callback
    */
   removeChangeListener: function(callback) {
-    var  side  = React.renderComponent(RightMenu({ message : "hello" }), document.getElementById('right-menu'));
-    var  schedules = React.renderComponent(Schedules(), document.getElementById('schedules'));
+    var  side  = React.render(<RightMenu message="hello" />, document.getElementById('right-menu'));
+    var  schedules = React.render(<Schedules />, document.getElementById('schedules'));
     this.removeListener(CHANGE_EVENT, callback);
   },
 
@@ -90,7 +92,7 @@ var ScheduleStore = assign({}, EventEmitter.prototype, {
     _schedules = data;
     if(_currentSchedule > data.length){
         _currentSchedule = 0;
-    } 
+    }
     for(var i in data){
         for(var j in _schedules[i].groups){
             var group = _schedules[i].groups[j];
@@ -134,18 +136,13 @@ ScheduleStore.dispatchToken = AppDispatcher.register(function(payload){
     action.actionType === SubjectConstants.SUBJECT_SELECT_TEACHER ||
     action.actionType === SubjectConstants.SUBJECT_SELECT_GROUPS ||
     action.actionType === SubjectConstants.PROFESSION_SET ||
-    (action.actionType === ScheduleConstants.SCHEDULE_SET_BUSY  && _isBusy == false)
-  ){
-    var timeout = (action.actionType === SubjectConstants.SUBJECT_ADD) ? 1000: 10;
-    setTimeout( function(){
-      var subjects = SubjectStore.getAll();
-      var url = ScheduleUtils.generateScheduleURL(subjects,_busyArray);
-      $.ajax({
-        url: "http://bogota.nomeroben.com/api/v1.0/schedule/" + url,
-        dataType: 'json',
-        success: ScheduleStore.update.bind(null, subjects)
-      });
-    },timeout);
+    (action.actionType === ScheduleConstants.SCHEDULE_SET_BUSY  && _isBusy == false)) {
+      var timeout = (action.actionType === SubjectConstants.SUBJECT_ADD) ? 1000: 10;
+      setTimeout( function(){
+        var subjects = SubjectStore.getAll();
+        var schedules = ScheduleUtils.generateSchedules(subjects,_busyArray);
+        ScheduleStore.update(subjects, schedules);
+      },timeout);
 
   }
 

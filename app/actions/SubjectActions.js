@@ -50,8 +50,13 @@ var SubjectActions = {
       actionType : SubjectConstants.PROFESSION_SET,
       profession : profession
     });
+  },
+  setProfessionType : pregrado => {
+    AppDispatcher.handleViewAction({
+      actionType : SubjectConstants.PROFESSION_SET_TYPE,
+      pregrado : pregrado
+    });
   }
-
 };
 
 module.exports = SubjectActions;

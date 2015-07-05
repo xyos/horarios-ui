@@ -4,7 +4,7 @@ var ScheduleThumbnail = require('./ScheduleThumbnail');
 var ScheduleActions = require('../actions/ScheduleActions');
 var cx = require('react/lib/cx');
 
-var SchduleSelect = React.createClass({
+var ScheduleSelect = React.createClass({
 
   onClick: function(e){
     ScheduleActions.setCurrent(this.props.key);
@@ -16,7 +16,7 @@ var SchduleSelect = React.createClass({
   render: function() {
 
     buttonClasses = cx({
-            "btn" : true , 
+            "btn" : true ,
             "btn-primary" : this.props.selected
     });
 
@@ -33,4 +33,4 @@ var SchduleSelect = React.createClass({
   }
 });
 
-module.exports = SchduleSelect;
+module.exports = ScheduleSelect;

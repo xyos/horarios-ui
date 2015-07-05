@@ -76,3 +76,13 @@ $RECYCLE.BIN/
 *.msi
 *.msm
 *.msp
+
+# Build
+*.woff2
+*.svg
+*.ttf
+*.eot
+*.woff
+*.png
+bundle.js
+main.css

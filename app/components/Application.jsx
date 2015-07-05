@@ -1,9 +1,10 @@
 var React = require('react');
-require('../style/app.less');
+
 require('semantic-ui/dist/semantic.js');
-var SubjectStore = require('stores/SubjectStore');
-var ScheduleStore = require('stores/ScheduleStore');
-var SubjectActions = require('actions/SubjectActions');
+require('../style/app.less');
+var SubjectStore = require('../stores/SubjectStore');
+var ScheduleStore = require('../stores/ScheduleStore');
+var SubjectActions = require('../actions/SubjectActions');
 var SearchComponent = require('./SearchComponent');
 var Subjects  = require('./Subjects');
 var Schedules = require('./Schedules');
@@ -13,6 +14,7 @@ var ScheduleActions = require('../actions/ScheduleActions');
 var AppDispatcher = require('../AppDispatcher');
 var cx = require('react/lib/cx');
 var ProfessionChooser = require('./ProfessionChooser.jsx');
+var cookie = require('js-cookie');
 
 window.History = History;
 window.React = React;
@@ -35,8 +37,8 @@ var Application = React.createClass({
 
   componentDidMount : function() {
     SubjectStore.addChangeListener(this._onChange);
-    React.renderComponent(RightMenu(), document.getElementById('right-menu'));
-    React.renderComponent(Schedules(), document.getElementById('schedules'));
+    React.render(<RightMenu />, document.getElementById('right-menu'));
+    React.render(<Schedules />, document.getElementById('schedules'));
   },
 
   componentWillUnmount : function() {
@@ -78,16 +80,15 @@ var Application = React.createClass({
 });
 
 
-var app = Application();
 $('.ui.modal')
   .modal()
 ;
-React.renderComponent(app, document.getElementById('search'));
+React.render(<Application/>, document.getElementById('search'));
 (function(window,undefined){
   History.Adapter.bind(window,'statechange',function(){
     var State = History.getState();
     Loader.fromHash(State.hash);
   });
 })(window);
-Loader = require('../utils/Loader');
+var Loader = require('../utils/Loader');
 Loader.fromHash(hash);

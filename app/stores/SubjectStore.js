@@ -3,11 +3,15 @@ var SubjectConstants = require('constants/SubjectConstants');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
 var StringUtils = require('../utils/String');
+var ScheduleUtils = require('../utils/Schedule');
 var $ = require('jquery');
 var Colors = require('../constants/Colors');
+var professions = require('../constants/Professions')
 var CHANGE_EVENT = 'change';
 
-var _professions = [];
+var _pregrado = true;
+var _professions_pre = [];
+var _professions_post = [];
 var _subjects = {};
 var _availableColors = [];
 var _currentProfession = {code: '', name: ''};
@@ -18,14 +22,23 @@ for(var color in Colors){
 var SubjectStore = assign({}, EventEmitter.prototype, {
 
   setProfessions : function(){
+    _professions_pre = professions.pregrado;
     $.ajax({
-      url: "http://bogota.nomeroben.com/api/v1.0/professions/",
+      url: "/api/v1.0/professions/",
       dataType: 'json',
       success: function(data){
         data.sort(function(a, b) {
           return a.name.localeCompare(b.name, 'es');
         });
-        _professions = data;
+        for (var i = 0; i < data.length; i++) {
+          var pos = true;
+          for (var j = 0; j < _professions_pre.length; j++) {
+            pos = pos && !(_professions_pre[j].code === data[i].code);
+          }
+          if(pos){
+            _professions_post.push(data[i]);
+          }
+        }
         SubjectStore.emit(CHANGE_EVENT);
       }
     });
@@ -42,7 +55,7 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
   },
 
   getProfessions:function() {
-    return _professions;
+    return _pregrado ? _professions_pre : _professions_post;
   },
 
   /**
@@ -97,6 +110,32 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
     SubjectStore.emitChange();
   },
 
+  filterGroupsByProfession: function(){
+    console.log(_subjects);
+    if(_currentProfession.code > 0){
+      for(var key in _subjects){
+        var groups = _subjects[key].groups
+        for(var i = 0; i< groups.length; i++){
+          var enabled = false;
+          for (var j = 0; j < groups[i].professions.length; j++) {
+            enabled = (_currentProfession.code == groups[i].professions[j]) || enabled
+          }
+          groups[i].enabled = enabled;
+          if(!enabled){
+            groups[i].selected = false;
+          }
+        }
+      }
+    } else {
+      for(var key in _subjects){
+        var groups = _subjects[key].groups
+        for(var i = 0; i< groups.length; i++){
+          groups[i].enabled = true;
+        }
+      }
+    }
+  },
+
   getCredits: function() {
     var credits = 0;
     for(var key in _subjects){
@@ -110,6 +149,10 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
     var name = StringUtils.humanize(data.name);
     var teachers = {};
     for (var i = 0, len = groups.length; i<len; i++){
+      groups[i].intSchedule = [];
+      for (var j = 0; j < groups[i].schedule.length; j++) {
+        groups[i].intSchedule.push(parseInt(ScheduleUtils.decimalToSchedString(groups[i].schedule[j]),2));
+      }
       groups[i].selected = true;
       if(groups[i].teacher.trim() === ""){
         groups[i].teacher = "No Asignado";
@@ -129,12 +172,13 @@ var SubjectStore = assign({}, EventEmitter.prototype, {
       id: subject.id,
       name: name,
       selected: true,
-      groups: data.groups,
+      groups: groups,
       type: data.type,
       credits: data.credits,
       color: Colors[color],
       teachers: teachers
     };
+    SubjectStore.filterGroupsByProfession()
     SubjectStore.emitChange();
   }
 
@@ -146,7 +190,7 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
 
     case SubjectConstants.SUBJECT_ADD:
       $.ajax({
-        url: "http://bogota.nomeroben.com/api/v1.0/subject/" + action.subject.id,
+        url: "/api/v1.0/subjects/" + action.subject.id,
         dataType: 'json',
         success: SubjectStore.add.bind(null, action.subject)
       });
@@ -206,6 +250,12 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
 
     case SubjectConstants.PROFESSION_SET:
       _currentProfession = action.profession;
+      SubjectStore.filterGroupsByProfession();
+      SubjectStore.emitChange();
+      break;
+
+    case SubjectConstants.PROFESSION_SET_TYPE:
+      _pregrado = action.pregrado;
       SubjectStore.emitChange();
       break;
 
@@ -213,5 +263,4 @@ SubjectStore.dispatchToken = AppDispatcher.register(function(payload){
       // do nothing
   }
 });
-
-module.exports = SubjectStore;
+export default SubjectStore;

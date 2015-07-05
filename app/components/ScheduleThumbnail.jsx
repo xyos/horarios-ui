@@ -68,9 +68,9 @@ var ScheduleThumbnail = React.createClass({
     this.canvas.width = 100;
     this.canvas.height = 50;
     this.draw(this.canvas.getContext('2d'),
-                this.props.groups, 
+                this.props.groups,
                 1, 1, 0.5);
-    content = this.canvas.toDataURL();
+    var content = this.canvas.toDataURL();
     var className = cx(
       'ui',
       'bordered',
@@ -82,7 +82,7 @@ var ScheduleThumbnail = React.createClass({
     );
   },
   selectSchedule: function(){
-    ScheduleActions.setCurrent(this.props.key);
+    ScheduleActions.setCurrent(this.props.number);
   }
 });
 

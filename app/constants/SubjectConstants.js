@@ -1,6 +1,6 @@
-var keyMirror = require('react/lib/keyMirror');
+import keyMirror from 'react/lib/keyMirror';
 
-module.exports = keyMirror({
+export default keyMirror({
   SUBJECT_ADD : null,
   SUBJECT_DELETE : null,
   SUBJECT_UPDATE_GROUPS : null,
@@ -9,5 +9,6 @@ module.exports = keyMirror({
   SUBJECT_SELECT_TEACHER: null,
   SUBJECT_SELECT: null,
   SUBJECT_LOAD: null,
-  PROFESSION_SET: null
+  PROFESSION_SET: null,
+  PROFESSION_SET_TYPE: null
 });

@@ -14,9 +14,9 @@ var getState = function() {
 };
 
 
-var Page =React.createClass({
+var Page = React.createClass({
   change: function(){
-    this.props.changePage(this.props.key);
+    this.props.changePage(this.props.number);
 
   },
   render: function () {
@@ -27,7 +27,7 @@ var Page =React.createClass({
     );
     return (
       <a className={className} onClick={this.change}>
-      {this.props.key + 1}
+      {this.props.number + 1}
       </a>
     )
   }
@@ -42,7 +42,7 @@ var PagerMenu = React.createClass({
     for(var i = 0; i < this.props.pages; i++){
       var selected = (i==this.props.selected);
       var current  = (i==this.props.currentSchedulePage);
-      pages.push(<Page key={i} current={current} selected={selected} changePage={this.props.onPageChange}/>);
+      pages.push(<Page number={i} current={current} selected={selected} changePage={this.props.onPageChange}/>);
     }
     return (
       <div className="ui pagination menu pages">
@@ -80,7 +80,7 @@ var SchedulesPager = React.createClass({
    */
   render: function() {
 
-    schedules = [];
+    var schedules = [];
     var schedulesNumber = this.props.schedules.length;
     if(schedulesNumber == 0){
       return null;
@@ -92,7 +92,7 @@ var SchedulesPager = React.createClass({
         i < this.props.schedules.length &&
         i < ((this.state.selectedPage + 1) *6) ;i++){
       var selected = (i===this.state.currentSchedule);
-      schedules.push(<ScheduleThumbnail selected={selected} key={i} w={100} h={50} groups={this.props.schedules[i].groups}/>)
+      schedules.push(<ScheduleThumbnail selected={selected} number={i} w={100} h={50} groups={this.props.schedules[i].groups}/>)
     }
 
     return (

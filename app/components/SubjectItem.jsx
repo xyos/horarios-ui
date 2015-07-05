@@ -17,7 +17,8 @@ var GroupItem = React.createClass({
     var group = this.props.group;
     var className = cx(
       "item group",
-      group.selected ? 'selected': ''
+      group.selected ? 'selected': '',
+      group.enabled ? '': 'hidden'
     );
     var ratio = group.available / group.totalShare;
     var classBadgeName = cx(
@@ -33,12 +34,12 @@ var GroupItem = React.createClass({
           onChange={this._onSelection}
         />
             {"grupo " + group.code}
-        <a className={classBadgeName}>
-        {group.available + "/" + group.totalShare}
-        </a>
       </div>
     );
   },
+        //  <a className={classBadgeName}>
+        //  {group.available + "/" + group.totalShare}
+        //  </a>
 
   _onSelection: function() {
     SubjectActions.selectGroup({subject:this.props.subject,group:this.props.group.code});
@@ -50,7 +51,7 @@ var TeacherItem = React.createClass({
 
   getInitialState: function() {
     return {
-      noShow: false,
+      noShow: true,
       selected: this.props.teacher.selected
     };
   },
@@ -65,7 +66,8 @@ var TeacherItem = React.createClass({
   render: function() {
     var className = cx(
       "item",
-      this.state.noShow ? 'no-show' : ''
+      this.state.noShow ? 'no-show' : '',
+      this.props.enabled > 0 ? '' : 'hidden'
     );
 
     return (
@@ -129,12 +131,15 @@ var SubjectItem = React.createClass({
     var teachersArray = [];
     for(var teacher in teachers){
       var groupsArray = {};
+      var enabled = 0;
       for(var group in groups){
         if(teacher  == groups[group].teacher){
+          if(groups[group].enabled) enabled++;
           groupsArray["g" + group] = <GroupItem group={groups[group]} subject={subject.id}/>;
         }
       }
-      teachersArray.push(<TeacherItem key={teacher  + subject.id} teacher={teachers[teacher]} subject={this.props.subject.id} groups={groupsArray}/>);
+      console.log(enabled);
+      teachersArray.push(<TeacherItem enabled={enabled} key={teacher  + subject.id} teacher={teachers[teacher]} subject={this.props.subject.id} groups={groupsArray}/>);
     }
     return (
       <div

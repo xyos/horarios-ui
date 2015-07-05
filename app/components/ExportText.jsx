@@ -1,5 +1,6 @@
 var ScheduleUtils = require('../utils/Schedule');
 var ScheduleStore = require('../stores/ScheduleStore');
+var React = require('react');
 
 var getState = function() {
   return {

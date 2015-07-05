@@ -2,8 +2,10 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var SubjectStore = require('../stores/SubjectStore');
 var StringUtils = require('../utils/String');
-var AutoComplete = require('./Autocomplete');
+//var AutoComplete = require('./Autocomplete');
 var SubjectActions = require('../actions/SubjectActions');
+var AutoComplete  = require('./AutoCompleteProfession');
+var cx            = React.addons.classSet;
 
 var getState = function() {
   return {
@@ -39,12 +41,6 @@ var ProfessionChooser = React.createClass({
     this.setState(getState());
   },
 
-  _chooseProfession : function(profession) {
-    SubjectActions.chooseProfession(profession);
-  },
-  /**
-   * @return {object}
-   */
   render: function() {
     var professions = [{id:"",title:"NINGUNA"}];
     for(var i=0; i< this.state.professions.length; i++){
@@ -52,22 +48,35 @@ var ProfessionChooser = React.createClass({
       var code = this.state.professions[i].code;
       professions.push({id:code,title:name});
     }
+    var showButton = cx(
+      "ui teal button fluid",
+      this.state.profession.name == undefined || this.state.profession.name == "" ?
+        'hidden' :
+        null
+    );
+    var showSearch = this.state.profession.code > 0
     return (
+      <div>
         <AutoComplete
           options={professions}
           onChange={this._selectProfession}
-          className="ui fluid floating dropdown labeled search icon button"
-          placeHolder="Elija su carrera..."
+          hidden={showSearch}
+          placeholder="Selecciona tu Carrera..."
           id="searchBox1"
-          span={true}
-          reset={false}
           value={this.state.profession}
         />
+      <button onClick={this._clearProfession} className={showButton}>{this.state.profession.name}</button>
+      </div>
     );
   },
+  _clearProfession: function(profession){
+      SubjectActions.setProfession({code: "", name: ""});
+  },
   _selectProfession: function(profession){
-    profession = profession.id ? (profession.id == "") ? {code: '', name: ''} : profession : {code: '', name: ''};
-    SubjectActions.setProfession({code: profession.id, name: profession.title});
+    if(profession){
+      profession = profession.id ? (profession.id == "") ? {code: '', name: ''} : profession : {code: '', name: ''};
+      SubjectActions.setProfession({code: profession.id, name: profession.title});
+    }
   }
 });
 

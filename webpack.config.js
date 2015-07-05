@@ -16,8 +16,16 @@ module.exports = {
   ],
   module: {
     loaders: [
-      {test: /\.jsx$/, loaders: ['react-hot', 'jsx-loader?harmony&insertPragma=React.DOM']},
-      {test: /\.es6\.js$/, loader: 'es6-loader'},
+    {
+      test: /\.jsx?$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel?stage=0'
+    },
+        {
+      test: /\.js?$/,
+      exclude: /(node_modules|bower_components)/,
+      loader: 'babel?stage=0'
+    },
       // Extract css files
       {
         test: /\.css$/,
@@ -31,7 +39,13 @@ module.exports = {
       },
       // allow less files to load urls pointing to font assets
       // @TODO: figure out why this is necessary and do it better
-      {test: /\.(woff|ttf|eot|svg|png)$/, loader: 'file-loader' }
+            { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,   loader: "url?limit=10000&minetype=application/font-woff" },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,  loader: "url?limit=10000&minetype=application/font-woff" },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=application/octet-stream" },
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,    loader: "file" },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=image/svg+xml" },
+      { test: /\.png(\?v=\d+\.\d+\.\d+)?$/,    loader: "url?limit=10000&minetype=image/svg+xml" }
+
     ]
   },
   resolve : {
